@@ -6,11 +6,11 @@ Für die ausführliche Dokumentation von Version 1, siehe hier: https://gitlab.r
 
 **[1. Beschreibung](#h-beschreibung)**<br>
 
-## Beschreibung <span id="#h-beschreibung"></span>
+## Beschreibung
 
 Test
 
-## Ticketliste <span id="#h-ticketliste"></span>
+## Ticketliste
 
 Filter-Links: [LucaWeatherAngle](https://jira.ruv.de/projects/KXKFZRVS?selectedItem=com.almworks.jira.structure:wi-projectnav-structure&s=%7B%22sQuery%22%3A%7B%22query%22%3A%22labels%20%3D%20%5C%22LucaWeatherAngle%5C%22%22%2C%22type%22%3A%22jql%22%7D%7D#) | [xv34989](https://jira.ruv.de/projects/KXKFZRVS?selectedItem=com.almworks.jira.structure:wi-projectnav-structure&s=%7B%22sQuery%22%3A%7B%22query%22%3A%22assignee%20%3D%20XV34989%22%2C%22type%22%3A%22jql%22%7D%7D#)
 
