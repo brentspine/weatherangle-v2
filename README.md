@@ -5,18 +5,44 @@ Für die ausführliche Dokumentation von Version 1, siehe hier: https://gitlab.r
 ## Inhalt
 
 **[1. Beschreibung](#beschreibung)**<br>
-**&nbsp;&nbsp;&nbsp;&nbsp;[1.1 Lernziele](#lernziele)**<br>
-**&nbsp;&nbsp;&nbsp;&nbsp;[1.2 Beschreibung bezüglich PP1](#beschreibung-bezüglich-pp1)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[1.1 Inhalt des Semesters](#inhalt-des-semesters)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[1.2 Wichtige Termine](#wichtige-termine)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[1.3 Lernziele Technisch](#lernziele-technisch)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[1.4 Lernziele Teamarbeit](#lernziele-teamarbeit)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[1.5 Beschreibung bezüglich PP1](#beschreibung-bezüglich-pp1)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[1.6 Hausarbeit Thema](#hausarbeit-thema)**<br>
 **[2. Anforderungen](#anforderungen)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[1.1 Techstack](#techstack)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[1.2 Funktionen](#funktionen)**<br>
 **[3. Design](#design)**<br>
 **[4. Projektstruktur](#projektstruktur)**<br>
-**[5. Ticketliste](#ticketliste)**<br>
+**[5. Arbeitsdokumentation](#arbeitsdokumentation)**<br>
+**[6. Ticketliste](#ticketliste)**<br>
+**[7. Persönliche To-Dos](#persönliche-to-dos)**<br>
 
 ## Beschreibung
 
-Weatherangle-v2 ist, wie der Name bereits preisgibt, die Neuaufsetzung meines ersten Angular-Übungsprojektes. Dadurch, dass WeatherAngle mein erstes eigenes Angular-Projekt war, ist der Code teilweise etwas durcheinander, schlecht verständlich oder nicht optimal strukturiert. Der Zweck des 'Rewrites' ist es das Gelernte erneut anzuwenden, um ein sauberes Projekt zu schreiben. Außerdem sollen weitere Features, wie das Einbinden eines eigenen Backends mit Login und weiteren User-Features vorbereitet werden. Eine Liste an Zielen ist unter [Lernziele](#lernziele) zu finden. Hierzu gehört unter Anderem das Verwenden einer besseren Projektstruktur, eine umfassende Nutzung von Services und das Generelle Üben vom sauberen Programmieren. WeatherAngle-v1 habe ich von GitHub auf GitLab migriert, zum Repository kommt man über [diesen Link](https://gitlab.ruv.de/XV34989/weatherangle-v1). Der bisherige Lernprozess ist dort dokumentiert.  
+Weatherangle-v2 ist, wie der Name bereits preisgibt, die Neuaufsetzung meines ersten Angular-Übungsprojektes. Dadurch, dass WeatherAngle mein erstes eigenes Angular-Projekt war, ist der Code teilweise etwas durcheinander, schlecht verständlich oder nicht optimal strukturiert. Der Zweck des 'Rewrites' ist es das Gelernte erneut anzuwenden, um ein sauberes Projekt zu schreiben. Außerdem sollen weitere Features, wie das Einbinden eines eigenen Backends mit Login und weiteren User-Features vorbereitet werden. Eine Liste an Zielen ist unter [Lernziele](#lernziele-technisch) zu finden. Hierzu gehört unter Anderem das Verwenden einer besseren Projektstruktur, eine umfassende Nutzung von Services und das Generelle Üben vom sauberen Programmieren. WeatherAngle-v1 habe ich von GitHub auf GitLab migriert, zum Repository kommt man über [diesen Link](https://gitlab.ruv.de/XV34989/weatherangle-v1). Der bisherige Lernprozess ist dort dokumentiert.  
 
-### Lernziele
+### Inhalt des Semesters
+
+Das 3. Semester besteht aus 3 Modulen mit insgesamt 17,5 CP. Der Hauptbestandteil ist das 1. Praxisprojekt ('PP1') - "Arbeiten im Team" (10 CP). Die Hausarbeit zu einem aktuellen Thema der Informatik gibt 5 CreditPoints. Mehr dazu bei der dazugehörigen Sektion [hier](#hausarbeit-thema). Die restlichen 2,5 CP hängen mit dem 'Fach' Recherchieren-Schreiben-Präsentieren (kurz RSP) zusammen.
+
+### Wichtige Termine
+
+Teilweise noch nicht fest:
+- **02.03.2026** - Projektbeantragung: Frist zur Beantragung der Projektmeldung. (Call for Project).
+- **30.03 - 02.04.2026** - Recherchieren-Schreiben-Präsentieren
+- **13.04.2026 16:00 Uhr** - Kickoff Tag 1
+- **20.04.2026 08:00** - Kickoff Tag 2
+- **09.07.2026** - Abgabe Exposé
+- **23.07.2026** - Reflexion
+- **25.08.2026** - Workshop
+- **11.09.2026** - Abgabe Hausarbeit
+- **18.09.2026** - Präsentation & Fachgespräch
+
+
+### Lernziele Technisch
 
 Teilweise aus v1 übernommen. Parallelen zu Fächern aus dem Studium wurden notiert.
 
@@ -33,13 +59,22 @@ Die bisherige Implementierung in v1 verwendet ausschließlich Promises für asyn
 #### Reactive Forms
 Die aktuelle Implementierung in v1 verwendet Template-Driven Forms mit `ngModel` für Formulare wie das Login-Modal. Diese Herangehensweise macht es schwerer, Formularlogik zu testen und bietet weniger Kontrolle über Validierung und Fehlerbehandlung. Reactive Forms würden eine übersichtlichere Alternative bieten und eine zentralisierte Verwaltung des Formular-Zustands ermöglichen.
 #### Kommentare
-HTML-Kommentare sollten vermieden werden, da sie im Browser sichtbar sind, was potenzielle Sicherheitsrisiken bergen kann. Stattdessen sollte die Dokumentation von Code-Logik in TypeScript-Dateien oder separater Dokumentation erfolgen. <!-- https://stackoverflow.com/a/35235768/16805423 --> Auch hier können Konzepte/Regeln aus OOAD/SC angewendet werden. 
+HTML-Kommentare sollten vermieden werden, da sie im Browser sichtbar sind, was potenzielle Sicherheitsrisiken bergen kann. Stattdessen sollte die Dokumentation von Code-Logik in TypeScript-Dateien oder separater Dokumentation erfolgen. <!-- https://stackoverflow.com/a/35235768/16805423 --> Auch hier können Konzepte/Regeln aus OOAD/SC angewendet werden.
 #### Verwendung von document & window
 Die direkte Manipulation des DOM über document.querySelector und der Zugriff auf das window-Objekt sollten in Angular vermieden werden. Stattdessen sollten Angular-spezifische Mechanismen wie `@ViewChild`, `ElementRef` und der Angular Router verwendet werden. Die direkte DOM-Manipulation kann zu XSS-Sicherheitslücken führen, ist schwerer zu testen und umgeht Angulars Change Detection. Zudem kann die Verwendung von window Probleme bei Server-Side-Rendering verursachen.
 #### Copyright
 In v1 wurde jegliche Nutzung von geschützten Daten mit Beachtung der Lizenz erwähnt. [OpenMeteo](https://open-meteo.com/) benutzt zum Beispiel die Lizenzart [Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/), die auch kommerzielle Nutzung erlaubt, soweit eine [angemessene Quellenangabe](https://wiki.creativecommons.org/wiki/License_Versions#Detailed_attribution_comparison_chart) vorhanden ist. Diese Regeln sollten unbedingt befolgt und dokumentiert werden. Andere Beispiele hierfür waren die Hintergrundbilder, Nominatim oder Google Icons.
 #### Tests
-Alle Funktionen sollten durch Tests abgedeckt sein. Hierfür werde ich die in RVS eingesetzten Tools benutzen um mich mit diesen weiter vertraut zu machen. Hierzu zählen Unit-Tests via Jasmine und Karma und UI basierte Tests mit Cypress. 
+Alle Funktionen sollten durch Tests abgedeckt sein. Hierfür werde ich die in RVS eingesetzten Tools benutzen um mich mit diesen weiter vertraut zu machen. Hierzu zählen Unit-Tests via Jasmine und Karma und UI basierte Tests mit Cypress.
+
+### Lernziele Teamarbeit
+
+#### Einbringen ins Team
+Ich sollte/will mich nicht nur fachlich, sondern auch sozial ins Team einbringen, indem ich proaktiv Feedback einhole, bei Fragen oder Problemen bereit bin diese zu stellen und bei Teamveranstaltungen mich beteilige. Die 'blaue Firmenkultur' sollte beachtet werden.
+#### Arbeiten im Team
+Ich werde mich während des Praxisprojektes, auch wenn ich an meinem eigenen Projekt, wie die anderen Entwickler im Team arbeiten. Ich werde weiterhin bei Sprint Planungen, Retros, Dailys und PI Plannings dabei sein und mich einbringen. Alle Aufgaben werden in Tickets dokumentiert und in Dailies besprochen und in Sprint Planungen & Retros aufgeplant.
+#### Fachliches Arbeiten
+Ich habe mich bereits während der letzten Praxisphase mit fachlichen Tickets beschäftigt. Falls ich mich während des Praxisprojektes mit fachlichen Themen befasse, werde ich das transparent dokumentieren, wobei ich auf einhalten der Firmengeheimnisse achte.
 
 ### Beschreibung bezüglich PP1
 
@@ -51,11 +86,63 @@ Alle Funktionen sollten durch Tests abgedeckt sein. Hierfür werde ich die in RV
 
 Vorab wichtig: Ziel des Repositories ist nicht nur eine Kopie oder ein "Rewrite" sondern eine Weiterentwicklung mit sauberem Code als Basis. Es handelt sich um eine substanzielle Weiterentwicklung mit neuen Zielen und Verbesserungen. 
 
+### Hausarbeit Thema
+
+_Notizen_
+
+Arbeiten MIT KI
+ - Wie weit würde KI mit meiner Dokumentation kommen?
+ - Einmal mit Angular, einmal ohne Angular
+ - Oneshot vs. Guided
+ - KI in der R+V: KI-Portal, In-IDE-KI
+ - Interviews?
+ - Auch hier: Datenschutz, warum so zögerlich? Meiner Meinung nach gut
+ - Zukunftsfähigkeit 
+
+Wie hilft KI bei Wettervorhersagen?
+ - Entwicklung in den letzten 20 Jahren (z. B.)
+ - Was für Daten benötigt die KI für die Vorhersage? 
+ - Wie wurde sie trainiert?
+ - Wie akkurat sind die Vorhersagen?
+ - Wird die KI eingesetzt und wenn ja von wem?
+ - Viele Möglichkeiten, auch für Interviews etc.
+
+ChatBot Wettervorhersage
+ - Ein ChatBot kriegt Daten wie Standort, favorisierte Orte, Uhrzeit, Wettervorhersagen, Anweisungen des Users und einen Einblick in den Terminkalender
+ - Außerdem kriegt er die Möglichkeit auf APIs zuzugreifen, wie Navi/Maps, aktuelle Events via Google Maps oder Tripadvisor
+ - Interessante Hausarbeitsthemen wären hierbei Agentic AI Agents 
+
 ## Anforderungen
+
+Was möchte ich am Ende des Projektes erreicht haben bezüglich der Funktionen von WeatherAngle? 
+
+### Techstack
+
+Ziel ist es den gleichen Techstack wie das Team zu verwenden um sich bestmöglich einzuarbeiten.
+
+#### Frontend
+
+Angular mit ng-bootstrap, SASS und Jasmine + Karma zum testen. Zudem Gherkin Testfälle.
+
+#### Backend
+
+Spring-Boot, JPA, Flyway(?), H2 zum lokalen Development
+
+#### Deployment?
+
+Bisher nur privat gehostet auf eigenem VPS und eigener Domain. Vielleicht intern? Pipelines etc. Sonar, usw.
+
+### Funktionen
+
+_Was soll WeatherAngle am Ende können?_
 
 ## Design
 
 ## Projektstruktur
+
+## Arbeitsdokumentation
+
+_Dokumentation über Zeit hier_
 
 ## Ticketliste
 
@@ -74,3 +161,11 @@ Filter-Links: [LucaWeatherAngle](https://jira.ruv.de/projects/KXKFZRVS?selectedI
 - [ ] [KXKFZRVS-883](https://jira.ruv.de/browse/KXKFZRVS-883): Ausbildung Luca: Passwort vergessen Funktion
 - [ ] [KXKFZRVS-934](https://jira.ruv.de/browse/KXKFZRVS-934): Umfassendes Refactoring der Wetterapp
 - [ ] [KXKFZRVS-1217](https://jira.ruv.de/browse/KXKFZRVS-1217): Ausbildung Luca: Analyse für Praxisphase und Vorstellen aller Eckdaten
+
+## Persönliche To-Dos
+
+_Eine Liste nur für mich zum notieren von Aufgaben, Ideen, usw._
+
+ - Ausformulieren von Ideen für Hausarbeit
+ - Ausarbeiten von TechStack Sektion, nicht nur die Stichpunkte. Kurz erklären was die Tools/Frameworks machen und was für einen Vorteil sie haben.
+ - Lernziel in einem Satz relativ am Anfang
