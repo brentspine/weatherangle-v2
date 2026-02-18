@@ -10,10 +10,11 @@ Für die ausführliche Dokumentation von Version 1, siehe hier: https://gitlab.r
 **&nbsp;&nbsp;&nbsp;&nbsp;[1.3 Lernziele Technisch](#lernziele-technisch)**<br>
 **&nbsp;&nbsp;&nbsp;&nbsp;[1.4 Lernziele Teamarbeit](#lernziele-teamarbeit)**<br>
 **&nbsp;&nbsp;&nbsp;&nbsp;[1.5 Beschreibung bezüglich PP1](#beschreibung-bezüglich-pp1)**<br>
-**&nbsp;&nbsp;&nbsp;&nbsp;[1.6 Hausarbeit Thema](#hausarbeit-thema)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[1.6 Projektdefinition WeatherAngle](#projektdefinition-weatherangle)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[1.7 Hausarbeit Thema](#hausarbeit-thema)**<br>
 **[2. Anforderungen](#anforderungen)**<br>
-**&nbsp;&nbsp;&nbsp;&nbsp;[1.1 Techstack](#techstack)**<br>
-**&nbsp;&nbsp;&nbsp;&nbsp;[1.2 Funktionen](#funktionen)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[2.1 Techstack](#techstack)**<br>
+**&nbsp;&nbsp;&nbsp;&nbsp;[2.2 Funktionen](#funktionen)**<br>
 **[3. Design](#design)**<br>
 **[4. Projektstruktur](#projektstruktur)**<br>
 **[5. Arbeitsdokumentation](#arbeitsdokumentation)**<br>
@@ -82,11 +83,74 @@ Ich habe mich bereits während der letzten Praxisphase mit fachlichen Tickets be
 
 **Thema/Projekt**: Die Themenwahl ist relativ frei, sollte jedoch so gewählt sein, dass man es inhaltlich im Begleitmodul „Hausarbeit zu einem aktuellen Thema der Informatik“ behandeln bzw. vertiefen kann. Das kann die Bearbeitung zumindest vereinfachen.
 
+h_da macht Zuteilung, Prof kann jedoch Wunschthemen auswählen.
+
 #### Wie werden die Anforderungen durch WeatherAngle erfüllt?
 
 Vorab wichtig: Ziel des Repositories ist nicht nur eine Kopie oder ein "Rewrite" sondern eine Weiterentwicklung mit sauberem Code als Basis. Es handelt sich um eine substanzielle Weiterentwicklung mit neuen Zielen und Verbesserungen. 
 
-### Hausarbeit Thema
+## Projektdefinition WeatherAngle
+
+![Praxis-Projekt1 Schritt 2 Managi](docs/images/pp1_schritt2.png)
+
+[Prozessübersicht - Meldung eines Praxisprojektes](https://managi.infdl.fbi.h-da.de/infdl/practicephase/project/call/mYffL0E6rNbMgtBCjdv73LmQS2ETuzk6SeykRhw4qdzaveI3Sj2xWpIbklON5GhqCCGArKqsXtfAH0bAg6w4ZCwwRQVJpizk8XiD)
+
+### Titel des Praxisprojekts
+
+WeatherAngle
+
+### Projektcharakter
+
+ - [x] Entwicklung
+ - [ ] Konzeption
+ - [ ] Innovation
+ - [ ] Forschung
+ - [ ] Sonstiges
+
+### Themengebiet
+
+_Auch 'Tag' oder 'Buzzword' genannt_
+
+Webentwicklung mit Angular(?)
+
+### Auftraggeber/Kunde
+
+ - [ ] intern
+ - [ ] extern
+
+### Durchführungsort
+
+R+V Wiesbaden
+
+### Motivation
+
+_Warum ist es notwendig dieses Projekt durchzuführen? (Maximale Zeichen 1000)_
+
+### Durchführung
+
+_Wie ist geplant das Projekt durchzuführen? Wie ist es geplant die gesetzten Ziele zu erreichen? (Maximale Zeichen 1000)_
+
+### Ziele
+
+_Was ist das Ergebnis / der Mehrwert des Projekts nach erfolgreichem Verlauf? (Maximale Zeichen 1000)_
+
+### Rahmenbedingungen
+
+_Welche Rahmenbedingungen gilt es zu berücksichtigen? (Maximale Zeichen 400)_
+
+### Ressourcen
+
+_Welche Ressourcen werden für einen Projekterfolg benötigt? (Maximale Zeichen 400)_
+
+### Projektmitglieder
+
+_Welche Mitglieder hat das Projekt?_
+
+### Name & Email Fachbetreuer*in
+
+Christoph Schuppler, [christoph.schuppler@ruv.de](mailto:christoph.schuppler@ruv.de)
+
+## Hausarbeit Thema
 
 _Notizen_
 
