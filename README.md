@@ -2,7 +2,7 @@
 
 Für die ausführliche Dokumentation von Version 1, siehe hier: https://gitlab.ruv.de/XV34989/weatherangle-v1
 
-## Inhalt
+# Inhalt
 
 **[1. Beschreibung](#beschreibung)**<br>
 **&nbsp;&nbsp;&nbsp;&nbsp;[1.1 Inhalt des Semesters](#inhalt-des-semesters)**<br>
@@ -21,15 +21,15 @@ Für die ausführliche Dokumentation von Version 1, siehe hier: https://gitlab.r
 **[6. Ticketliste](#ticketliste)**<br>
 **[7. Persönliche To-Dos](#persönliche-to-dos)**<br>
 
-## Beschreibung
+# Beschreibung
 
 Weatherangle-v2 ist, wie der Name bereits preisgibt, die Neuaufsetzung meines ersten Angular-Übungsprojektes. Dadurch, dass WeatherAngle mein erstes eigenes Angular-Projekt war, ist der Code teilweise etwas durcheinander, schlecht verständlich oder nicht optimal strukturiert. Der Zweck des 'Rewrites' ist es das Gelernte erneut anzuwenden, um ein sauberes Projekt zu schreiben. Außerdem sollen weitere Features, wie das Einbinden eines eigenen Backends mit Login und weiteren User-Features vorbereitet werden. Eine Liste an Zielen ist unter [Lernziele](#lernziele-technisch) zu finden. Hierzu gehört unter Anderem das Verwenden einer besseren Projektstruktur, eine umfassende Nutzung von Services und das Generelle Üben vom sauberen Programmieren. WeatherAngle-v1 habe ich von GitHub auf GitLab migriert, zum Repository kommt man über [diesen Link](https://gitlab.ruv.de/XV34989/weatherangle-v1). Der bisherige Lernprozess ist dort dokumentiert.  
 
-### Inhalt des Semesters
+## Inhalt des Semesters
 
 Das 3. Semester besteht aus 3 Modulen mit insgesamt 17,5 CP. Der Hauptbestandteil ist das 1. Praxisprojekt ('PP1') - "Arbeiten im Team" (10 CP). Die Hausarbeit zu einem aktuellen Thema der Informatik gibt 5 CreditPoints. Mehr dazu bei der dazugehörigen Sektion [hier](#hausarbeit-thema). Die restlichen 2,5 CP hängen mit dem 'Fach' Recherchieren-Schreiben-Präsentieren (kurz RSP) zusammen.
 
-### Wichtige Termine
+## Wichtige Termine
 
 Teilweise noch nicht fest:
 - **02.03.2026** - Projektbeantragung: Frist zur Beantragung der Projektmeldung. (Call for Project).
@@ -43,7 +43,7 @@ Teilweise noch nicht fest:
 - **18.09.2026** - Präsentation & Fachgespräch
 
 
-### Lernziele Technisch
+## Lernziele Technisch
 
 Teilweise aus v1 übernommen. Parallelen zu Fächern aus dem Studium wurden notiert.
 
@@ -68,7 +68,7 @@ In v1 wurde jegliche Nutzung von geschützten Daten mit Beachtung der Lizenz erw
 #### Tests
 Alle Funktionen sollten durch Tests abgedeckt sein. Hierfür werde ich die in RVS eingesetzten Tools benutzen um mich mit diesen weiter vertraut zu machen. Hierzu zählen Unit-Tests via Jasmine und Karma und UI basierte Tests mit Cypress.
 
-### Lernziele Teamarbeit
+## Lernziele Teamarbeit
 
 #### Einbringen ins Team
 Ich sollte/will mich nicht nur fachlich, sondern auch sozial ins Team einbringen, indem ich proaktiv Feedback einhole, bei Fragen oder Problemen bereit bin diese zu stellen und bei Teamveranstaltungen mich beteilige. Die 'blaue Firmenkultur' sollte beachtet werden.
@@ -77,7 +77,7 @@ Ich werde mich während des Praxisprojektes, auch wenn ich an meinem eigenen Pro
 #### Fachliches Arbeiten
 Ich habe mich bereits während der letzten Praxisphase mit fachlichen Tickets beschäftigt. Falls ich mich während des Praxisprojektes mit fachlichen Themen befasse, werde ich das transparent dokumentieren, wobei ich auf einhalten der Firmengeheimnisse achte.
 
-### Beschreibung bezüglich PP1
+## Beschreibung bezüglich PP1
 
 **Lernziel**: In der ersten Praxisphase sollen die Studierenden vor allem Teamarbeit und Zusammenarbeit in Projekten erlernen und praktisch erfahren. Sie werden im Partnerunternehmen in ein Projektteam integriert, um die in den ersten beiden Semestern erworbenen Informatik- Grundlagen im realen Betrieb anzuwenden und zu vertiefen. Dabei geht es insbesondere darum, über das fachliche hinweg, auch die "überfachlichen" Kompetenzen der Kooperation im Team zu lernen. Die Studierenden lernen, IT- Projekte strukturiert anzugehen, einen Projektplan mit Zielen, Meilensteinen und Zeitplänen zu erstellen und Projektrisiken abzuschätzen. Zudem sollen sie ihre technischen Kenntnisse in einem konkreten Projektumfeld erweitern und "Soft Skills" wie Kommunikations- und Präsentationstechnik, Team- und Problemlösungsfähigkeit trainieren.
 
@@ -176,11 +176,11 @@ ChatBot Wettervorhersage
  - Außerdem kriegt er die Möglichkeit auf APIs zuzugreifen, wie Navi/Maps, aktuelle Events via Google Maps oder Tripadvisor
  - Interessante Hausarbeitsthemen wären hierbei Agentic AI Agents 
 
-## Anforderungen
+# Anforderungen
 
 Was möchte ich am Ende des Projektes erreicht haben bezüglich der Funktionen von WeatherAngle? 
 
-### Techstack
+## Techstack
 
 Ziel ist es den gleichen Techstack wie das Team zu verwenden um sich bestmöglich einzuarbeiten.
 
@@ -196,19 +196,23 @@ Spring-Boot, JPA, Flyway(?), H2 zum lokalen Development
 
 Bisher nur privat gehostet auf eigenem VPS und eigener Domain. Vielleicht intern? Pipelines etc. Sonar, usw.
 
-### Funktionen
+## Funktionen
 
 _Was soll WeatherAngle am Ende können?_
 
-## Design
+# Design
 
-## Projektstruktur
+_Beschreibung des Designprozesses_
 
-## Arbeitsdokumentation
+# Projektstruktur
+
+_Wie soll die Projektstruktur aussehen?_
+
+# Arbeitsdokumentation
 
 _Dokumentation über Zeit hier_
 
-## Ticketliste
+# Ticketliste
 
 Filter-Links: [LucaWeatherAngle](https://jira.ruv.de/projects/KXKFZRVS?selectedItem=com.almworks.jira.structure:wi-projectnav-structure&s=%7B%22sQuery%22%3A%7B%22query%22%3A%22labels%20%3D%20%5C%22LucaWeatherAngle%5C%22%22%2C%22type%22%3A%22jql%22%7D%7D#) | [xv34989](https://jira.ruv.de/projects/KXKFZRVS?selectedItem=com.almworks.jira.structure:wi-projectnav-structure&s=%7B%22sQuery%22%3A%7B%22query%22%3A%22assignee%20%3D%20XV34989%22%2C%22type%22%3A%22jql%22%7D%7D#)
 
