@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#DD1B16">
+  <title>Login</title>
+
+  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/login.css">
+</head>
+
+<body>
+<main class="login-page">
+  <section class="login-box" aria-labelledby="login-title">
+    <img
+      class="site-logo"
+      src="/logo_white.png"
+      alt="Brentspine.de"
+    >
+
+    <h1 class="welcome-header" id="login-title">Welcome back</h1>
+    <p class="welcome-text">Sign in to have the perfect experience.</p>
+
+    <div class="error-message" hidden>Loading...</div>
+    <div class="warning-message" hidden>Loading...</div>
+    <div class="success-message" hidden>Loading...</div>
+
+    <form class="login-form" id="login-form">
+      <div class="input-group">
+        <label for="username-input">Username</label>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          id="username-input"
+          autocomplete="username"
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="password-input">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          id="password-input"
+          autocomplete="current-password"
+        >
+      </div>
+
+      <button type="submit" class="submit-button">Login</button>
+
+      <p class="create-account">
+        New here? <a href="/register/">Create account</a>
+      </p>
+    </form>
+  </section>
+</main>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const usernameInput = document.querySelector("#username-input");
+    const loginForm = document.querySelector("#login-form");
+
+    usernameInput.value = getCookie("username") || "";
+
+    loginForm.addEventListener("submit", event => {
+      event.preventDefault();
+      login();
+    });
+  });
+</script>
+</body>
+</html>

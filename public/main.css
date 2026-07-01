@@ -1,0 +1,206 @@
+:root {
+  --color-text-main: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.72);
+
+  --color-accent: #DD1B16;
+  --color-accent-hover: #b71814;
+
+  --color-page-background: #120f13;
+
+  --color-box: rgba(255, 255, 255, 0.16);
+  --color-box-hover: rgba(255, 255, 255, 0.19);
+  --color-box-border: rgba(255, 255, 255, 0.12);
+  --color-box-border-hover: rgba(221, 27, 22, 0.32);
+  --color-box-shadow: rgba(0, 0, 0, 0.28);
+
+  --color-input-background: rgba(255, 255, 255, 0.11);
+  --color-input-background-focus: rgba(255, 255, 255, 0.16);
+  --color-input-border: rgba(255, 255, 255, 0.14);
+  --color-input-border-focus: rgba(221, 27, 22, 0.75);
+
+  --color-error-background: rgba(221, 27, 22, 0.18);
+  --color-error-text: #ffb8b5;
+
+  --color-warning-background: rgba(255, 193, 7, 0.17);
+  --color-warning-text: #ffe08a;
+
+  --color-success-background: rgba(25, 135, 84, 0.18);
+  --color-success-text: #9ff0bd;
+
+  --app-background-image: url("/background.jpg");
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--color-text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(221, 27, 22, 0.22), transparent 34%),
+    radial-gradient(circle at 80% 70%, rgba(117, 24, 21, 0.28), transparent 36%),
+    var(--color-page-background);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: -36px;
+  z-index: -2;
+  background-image: var(--app-background-image);
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px);
+  opacity: 0.42;
+  transform: scale(1.06);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(135deg, rgba(18, 15, 19, 0.7), rgba(18, 15, 19, 0.42)),
+    radial-gradient(circle at 50% 0%, rgba(221, 27, 22, 0.12), transparent 42%);
+  background-size: 140% 140%;
+  animation: background-shift 18s ease-in-out infinite alternate;
+}
+
+@keyframes background-shift {
+  from {
+    background-position: 0% 50%;
+  }
+
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+input,
+button {
+  font: inherit;
+}
+
+input {
+  width: 100%;
+  padding: 0.8rem 0.95rem;
+  color: var(--color-text-main);
+  background: var(--color-input-background);
+  border: 1px solid var(--color-input-border);
+  border-radius: 0.65rem;
+  color-scheme: dark;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+input:focus {
+  outline: none;
+  background: var(--color-input-background-focus);
+  border-color: var(--color-input-border-focus);
+  box-shadow: 0 0 0 3px rgba(221, 27, 22, 0.13);
+}
+
+label {
+  display: block;
+  margin-bottom: 0.38rem;
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  color: #ffffff;
+  font-weight: 750;
+  background: var(--color-accent);
+  border: 0;
+  border-radius: 0.72rem;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.submit-button:hover {
+  background: var(--color-accent-hover);
+  box-shadow: 0 0.75rem 1.8rem rgba(221, 27, 22, 0.22);
+  transform: translateY(-1px);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+.error-message,
+.warning-message,
+.success-message {
+  width: 100%;
+  margin: 0 0 0.9rem;
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  border-radius: 0.65rem;
+  font-size: 0.92rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.error-message {
+  color: var(--color-error-text);
+  background: var(--color-error-background);
+}
+
+.warning-message {
+  color: var(--color-warning-text);
+  background: var(--color-warning-background);
+}
+
+.success-message {
+  color: var(--color-success-text);
+  background: var(--color-success-background);
+}
+
+.hidden,
+[hidden] {
+  display: none !important;
+}

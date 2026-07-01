@@ -11,11 +11,3 @@ C:\Users\XV34989\IdeaProjects\weatherangle-backend>curl http://localhost:8080/he
 {"message":"All systems operational","checks":[{"name":"database","startedAt":"2026-05-12T21:01:36.741368Z","endedAt":"2026-05-12T21:01:36.741368Z","status":"UP","message":"Database is up and running"}]}
 C:\Users\XV34989\IdeaProjects\weatherangle-backend>
 ```
-
-Todo für Backend:
- - Services auslagern basierend auf Controllern ✅
- - Startup in README dokumentieren ✅
- - @StrongPassword selbst bauen statt Lib
- - Try Catch in Controllern, egal was Spring sagt ✅
- - DDoS in LoginController möglich?
- - Kein Returnen der UserID
