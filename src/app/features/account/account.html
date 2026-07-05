@@ -1,0 +1,10 @@
+<app-header />
+
+<main class="account-page">
+  <section class="account-box">
+    <h1 class="welcome-header">Welcome {{ currentUser()?.username}}</h1>
+    <p class="welcome-text">Account settings are coming soon.</p>
+
+    <button type="button" class="btn btn-primary w-100" (click)="onLogout()">Log out</button>
+  </section>
+</main>

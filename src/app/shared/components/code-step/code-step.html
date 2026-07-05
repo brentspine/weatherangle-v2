@@ -1,0 +1,40 @@
+<form (ngSubmit)="onSubmit()">
+  <p class="welcome-text">
+    @if (subtitle()) {
+      {{ subtitle() }}
+    } @else {
+      We sent a 6-digit code to <strong>{{ email() }}</strong>.
+    }
+  </p>
+
+  <app-form-error [message]="errorMessage()" />
+
+  <div class="mb-3 text-start">
+    <label for="code-step-input" class="form-label">Verification code</label>
+    <input
+      id="code-step-input"
+      type="text"
+      class="form-control"
+      [formControl]="codeControl"
+      inputmode="numeric"
+      autocomplete="one-time-code"
+      maxlength="6"
+      placeholder="123456"
+    >
+    @if (codeControl.invalid && codeControl.touched) {
+      <div class="form-text text-danger">Enter the 6-digit code.</div>
+    }
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100 mb-2" [disabled]="loading()">
+    @if (loading()) {
+      <app-loading-spinner />
+    }
+    {{ submitLabel() }}
+  </button>
+
+  <div class="d-flex justify-content-between">
+    <button type="button" class="btn btn-link p-0" (click)="back.emit()">Change email</button>
+    <button type="button" class="btn btn-link p-0" (click)="resend.emit()">Resend code</button>
+  </div>
+</form>

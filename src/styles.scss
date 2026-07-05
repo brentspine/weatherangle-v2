@@ -1,1 +1,137 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'bootstrap/scss/bootstrap' with (
+  $body-bg: #120f13,
+  $body-color: #ffffff,
+  $primary: #dd1b16,
+  $font-family-sans-serif: (
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif,
+  ),
+  $enable-shadows: false,
+  $dropdown-bg: rgba(10, 8, 10, 0.94),
+  $dropdown-color: #ffffff,
+  $dropdown-link-color: #ffffff,
+  $dropdown-link-hover-color: #ffffff,
+  $dropdown-link-hover-bg: rgba(255, 255, 255, 0.08),
+  $dropdown-link-active-color: #ffffff,
+  $dropdown-link-active-bg: rgba(255, 255, 255, 0.08),
+  $dropdown-border-color: rgba(255, 255, 255, 0.08)
+);
+
+:root {
+  --header-height: clamp(3.75rem, 7vw, 4.75rem);
+
+  --color-text-main: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.72);
+
+  --color-accent: #dd1b16;
+  --color-accent-hover: #b71814;
+
+  --color-page-background: #120f13;
+
+  --color-box: rgba(255, 255, 255, 0.16);
+  --color-box-border: rgba(255, 255, 255, 0.12);
+  --color-box-shadow: rgba(0, 0, 0, 0.28);
+
+  --color-box-alt: rgba(255, 255, 255, 0.18);
+  --color-box-alt-border: rgba(255, 255, 255, 0.1);
+  --color-box-alt-shadow: rgba(0, 0, 0, 0.2);
+
+  --color-input-background: rgba(255, 255, 255, 0.11);
+  --color-input-background-focus: rgba(255, 255, 255, 0.16);
+  --color-input-border: rgba(255, 255, 255, 0.14);
+  --color-input-border-focus: rgba(221, 27, 22, 0.75);
+
+  --color-error-background: rgba(221, 27, 22, 0.18);
+  --color-error-text: #ffb8b5;
+
+  --color-warning-background: rgba(255, 193, 7, 0.17);
+  --color-warning-text: #ffe08a;
+
+  --color-success-background: rgba(25, 135, 84, 0.18);
+  --color-success-text: #9ff0bd;
+}
+
+body {
+  color-scheme: dark;
+}
+
+// Shared across auth-layout/email-step/code-step, each a separately style-encapsulated component.
+.welcome-header {
+  margin: 0 0 0.55rem;
+  text-align: left;
+  font-size: clamp(1.55rem, 3.2vw, 2.15rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.welcome-text {
+  margin: 0 0 clamp(1.35rem, 2.4vw, 1.8rem);
+  color: var(--color-text-muted);
+  text-align: left;
+  font-size: clamp(0.98rem, 1.4vw, 1.08rem);
+}
+
+.form-control {
+  background-color: var(--color-input-background);
+  border-color: var(--color-input-border);
+  color: var(--color-text-main);
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.42);
+  }
+
+  &:focus {
+    background-color: var(--color-input-background-focus);
+    border-color: var(--color-input-border-focus);
+    box-shadow: 0 0 0 3px rgba(221, 27, 22, 0.13);
+    color: var(--color-text-main);
+  }
+}
+
+.btn-primary {
+  font-weight: 750;
+
+  &:hover {
+    box-shadow: 0 0.75rem 1.8rem rgba(221, 27, 22, 0.22);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.alert-danger {
+  color: var(--color-error-text);
+  background-color: var(--color-error-background);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.alert-warning {
+  color: var(--color-warning-text);
+  background-color: var(--color-warning-background);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.alert-success {
+  color: var(--color-success-text);
+  background-color: var(--color-success-background);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+// Sekundäres Box Design aktiviert durch data-box-style="alt" auf body
+body[data-box-style='alt'] {
+  --color-box: var(--color-box-alt);
+  --color-box-border: var(--color-box-alt-border);
+  --color-box-shadow: var(--color-box-alt-shadow);
+
+  .auth-box,
+  .home-box,
+  .account-box,
+  .places-box {
+    backdrop-filter: none;
+  }
+}

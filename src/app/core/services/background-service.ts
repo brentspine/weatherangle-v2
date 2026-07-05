@@ -157,13 +157,10 @@ export class BackgroundService {
     }
   ];
 
-  private readonly authBackground: BackgroundInfo = {
-    imageUrl: "/images/bg/mainbg_sunset_5k.jpg",
-    authorName: "Myriams-Fotos - Pixabay",
-    authorLink: "https://pixabay.com/de/photos/sonnenaufgang-sonne-morgenrot-1513802/"
-  }
+  private readonly defaultBackground: BackgroundInfo = this.ALL_BACKGROUNDS[3];
+  private readonly authBackground: BackgroundInfo = this.ALL_BACKGROUNDS[8];
 
-  readonly currentBackground = signal<BackgroundInfo>(this.ALL_BACKGROUNDS[3]);
+  readonly currentBackground = signal<BackgroundInfo>(this.defaultBackground);
 
   updateBackgroundByWeather(currentWeather: WeatherDescription) {
     let bestMatch: BackgroundInfo = this.ALL_BACKGROUNDS[0];
@@ -195,6 +192,14 @@ export class BackgroundService {
   // Manuelle Methode (z.B. für die Login-Seite, die immer das gleiche Bild will)
   setNewBackground(info: BackgroundInfo) {
     this.currentBackground.set(info);
+  }
+
+  setAuthBackground(): void {
+    this.currentBackground.set(this.authBackground);
+  }
+
+  resetToDefault(): void {
+    this.currentBackground.set(this.defaultBackground);
   }
 
 }
