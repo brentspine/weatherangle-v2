@@ -1,0 +1,12 @@
+<app-header />
+
+<main class="places-page">
+  <section class="places-box">
+    @if (location(); as loc) {
+      <h1 class="welcome-header">{{ loc.displayName }}</h1>
+      <p class="welcome-text">{{ loc.lat }}, {{ loc.lon }}</p>
+    } @else {
+      <app-loading-spinner />
+    }
+  </section>
+</main>

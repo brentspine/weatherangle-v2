@@ -1,0 +1,43 @@
+<app-auth-layout title="Welcome back" subtitle="Sign in to have the perfect experience.">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <app-form-error [message]="errorMessage()" />
+
+    <div class="mb-3 text-start">
+      <label for="username-input" class="form-label">Username</label>
+      <input
+        id="username-input"
+        type="text"
+        class="form-control"
+        formControlName="username"
+        autocomplete="username"
+        placeholder="Username"
+      >
+    </div>
+
+    <div class="mb-3 text-start">
+      <label for="password-input" class="form-label">Password</label>
+      <input
+        id="password-input"
+        type="password"
+        class="form-control"
+        formControlName="password"
+        autocomplete="current-password"
+        placeholder="Password"
+      >
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="loading()">
+      @if (loading()) {
+        <app-loading-spinner />
+      }
+      Login
+    </button>
+
+    <p class="create-account">
+      <a routerLink="/password-reset">Forgot your password?</a>
+    </p>
+    <p class="create-account">
+      New here? <a routerLink="/register">Create account</a>
+    </p>
+  </form>
+</app-auth-layout>

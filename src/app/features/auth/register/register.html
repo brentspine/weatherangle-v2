@@ -1,0 +1,44 @@
+<app-auth-layout title="Create your account">
+  @if (!verificationToken()) {
+    <app-verification-stepper [texts]="texts" [endpoints]="endpoints" (verified)="onVerified($event)" />
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <app-form-error [message]="errorMessage()" />
+
+      <div class="mb-3 text-start">
+        <label for="register-username-input" class="form-label">Username</label>
+        <input
+          id="register-username-input"
+          type="text"
+          class="form-control"
+          formControlName="username"
+          autocomplete="username"
+          placeholder="Username"
+        >
+      </div>
+
+      <div class="mb-3 text-start">
+        <label for="register-password-input" class="form-label">Password</label>
+        <input
+          id="register-password-input"
+          type="password"
+          class="form-control"
+          formControlName="password"
+          autocomplete="new-password"
+          placeholder="Password"
+        >
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" [disabled]="loading()">
+        @if (loading()) {
+          <app-loading-spinner />
+        }
+        Create account
+      </button>
+    </form>
+  }
+
+  <p class="create-account">
+    Already have an account? <a routerLink="/login">Sign in</a>
+  </p>
+</app-auth-layout>

@@ -1,0 +1,140 @@
+.site-header {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1rem, 3vw, 2rem);
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo {
+  height: clamp(2.1rem, 3.5vw, 2.6rem);
+  width: auto;
+  object-fit: contain;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.6rem, 1.5vw, 1rem);
+}
+
+.search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  width: clamp(7rem, 14vw, 11rem);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: transparent;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  background: transparent;
+  padding: 0 0.35rem 0 0.8rem;
+  color: var(--color-text-main);
+  font-size: 0.78rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.search-icon {
+  margin-right: 0.55rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  pointer-events: none;
+}
+
+.account-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.account-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  line-height: 1;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.account-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 9rem;
+  background: rgba(10, 8, 10, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.6rem;
+  box-shadow: 0 1rem 2.5rem var(--color-box-shadow);
+  overflow: hidden;
+  z-index: 20;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: none;
+  color: var(--color-text-main);
+  font-size: 0.82rem;
+  font-weight: 550;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+
+  .material-symbols-outlined {
+    font-size: 1.05rem;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &--danger {
+    color: var(--color-accent);
+  }
+}
+
+@media (max-width: 640px) {
+  .search-bar {
+    width: clamp(6rem, 26vw, 9rem);
+  }
+}

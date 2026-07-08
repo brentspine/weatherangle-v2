@@ -1,0 +1,44 @@
+<header class="site-header">
+  <a routerLink="/" class="logo-link" aria-label="WeatherAngle home">
+    <img class="logo" ngSrc="/logo_white.png" alt="WeatherAngle" height="75" width="670" />
+  </a>
+
+  <div class="header-right">
+    <div class="search-bar">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search..."
+        autocomplete="off"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+        [ngbTypeahead]="search"
+        [resultFormatter]="resultFormatter"
+        [inputFormatter]="inputFormatter"
+        (selectItem)="onSelectLocation($event)"
+      />
+      <span class="material-symbols-outlined search-icon">search</span>
+    </div>
+
+    @if (isAuthenticated()) {
+      <div class="account-menu">
+        <button type="button" class="account-btn" (click)="toggleMenu()">Account</button>
+
+        @if (menuOpen()) {
+          <div class="account-dropdown">
+            <a routerLink="/account" class="dropdown-item" (click)="closeMenu()">
+              <span class="material-symbols-outlined">person</span>
+              Account
+            </a>
+            <button type="button" class="dropdown-item dropdown-item--danger" (click)="onLogout()">
+              <span class="material-symbols-outlined">logout</span>
+              Log out
+            </button>
+          </div>
+        }
+      </div>
+    } @else {
+      <a routerLink="/login" class="account-btn">Login</a>
+    }
+  </div>
+</header>

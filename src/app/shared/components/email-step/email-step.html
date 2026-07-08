@@ -1,0 +1,29 @@
+<form (ngSubmit)="onSubmit()">
+  @if (subtitle()) {
+    <p class="welcome-text">{{ subtitle() }}</p>
+  }
+
+  <app-form-error [message]="errorMessage()" />
+
+  <div class="mb-3 text-start">
+    <label for="email-step-input" class="form-label">Email</label>
+    <input
+      id="email-step-input"
+      type="email"
+      class="form-control"
+      [formControl]="emailControl"
+      autocomplete="email"
+      placeholder="example@weatherangle.de"
+    >
+    @if (emailControl.invalid && emailControl.touched) {
+      <div class="form-text text-danger">Enter a valid email address.</div>
+    }
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100" [disabled]="loading()">
+    @if (loading()) {
+      <app-loading-spinner />
+    }
+    {{ submitLabel() }}
+  </button>
+</form>

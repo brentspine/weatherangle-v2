@@ -1,0 +1,20 @@
+@if (step() === 'email') {
+  <app-email-step
+    [subtitle]="texts().emailSubtitle ?? ''"
+    [submitLabel]="texts().emailSubmitLabel ?? 'Continue'"
+    [loading]="loading()"
+    [errorMessage]="errorMessage()"
+    (submitted)="onEmailSubmit($event)"
+  />
+} @else {
+  <app-code-step
+    [subtitle]="texts().codeSubtitle ?? ''"
+    [email]="email()"
+    [submitLabel]="texts().codeSubmitLabel ?? 'Verify'"
+    [loading]="loading()"
+    [errorMessage]="errorMessage()"
+    (submitted)="onCodeSubmit($event)"
+    (resend)="onResend()"
+    (back)="onChangeEmail()"
+  />
+}
