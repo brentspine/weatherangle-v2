@@ -10,11 +10,17 @@ export function extractApiErrorMessage(
       return err.error;
     }
 
-    const body = err.error as Partial<ValidationErrorResponse> | null;
-    if (body?.violations) {
-      const messages = Object.values(body.violations);
+    const violationBody = err.error as Partial<ValidationErrorResponse> | null;
+    if (violationBody?.violations) {
+      const messages = Object.values(violationBody.violations);
       if (messages.length > 0) {
         return messages.join(' ');
+      }
+    }
+    const body = err.error;
+    if (body) {
+      if(typeof body.message === 'string') {
+        return body.message;
       }
     }
   }
