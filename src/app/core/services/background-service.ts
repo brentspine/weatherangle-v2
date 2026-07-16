@@ -185,7 +185,6 @@ export class BackgroundService {
         bestMatch = bg;
       }
     }
-
     this.currentBackground.set(bestMatch);
   }
 

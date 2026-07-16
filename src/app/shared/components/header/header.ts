@@ -86,8 +86,9 @@ export class Header {
       return;
     }
 
+    // Wir geben den Locationamen direkt weiter, damit wir nicht nochmal laden müssen
     this.router.navigate(['/places', `@${event.item.lat},${event.item.lon}`], {
-      queryParams: { name: event.item.displayName },
+      state: { location: event.item },
     });
   }
 

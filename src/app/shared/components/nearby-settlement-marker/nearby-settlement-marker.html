@@ -1,0 +1,19 @@
+<div class="nearby-marker" [class.expanded]="expanded()" (click)="toggle()">
+  <span class="nearby-marker-name">{{ settlement().name }}</span>
+  @if (current(); as c) {
+    <span class="nearby-marker-temp">{{ c.temperature | metricValue: 'celsius' }}</span>
+    @if (expanded()) {
+      <img class="nearby-marker-icon" [src]="c.weatherCode | weatherIconUrl: c.isDay" [alt]="settlement().name" />
+      <button
+        type="button"
+        class="nearby-marker-chevron"
+        (click)="onDetailsClick($event)"
+        aria-label="Details anzeigen"
+      >
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    }
+  } @else {
+    <span class="nearby-marker-temp nearby-marker-loading">…</span>
+  }
+</div>

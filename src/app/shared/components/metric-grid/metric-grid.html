@@ -1,0 +1,11 @@
+<div class="metric-grid">
+  @for (metric of metrics(); track metric.label) {
+    <div class="metric-row">
+      <span class="material-symbols-outlined metric-icon">{{ metric.icon }}</span>
+      <div class="metric-text">
+        <span class="metric-value">{{ metric.value | metricValue: metric.unit }}</span>
+        <span class="metric-label">{{ metric.label }}</span>
+      </div>
+    </div>
+  }
+</div>

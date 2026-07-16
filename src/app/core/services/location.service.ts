@@ -104,10 +104,12 @@ function toLocation(place: NominatimPlace): Location {
     lat: parseFloat(place.lat),
     lon: parseFloat(place.lon),
     displayName: place.display_name,
+    name: place.name,
+    boundingBox: place.boundingbox.map(Number) as [number, number, number, number],
   };
 }
 
-// Wir versuchen irelevantere Treffer trotz Nominatim Return rauszufiltern
+// Wir versuchen irrelevantere Treffer trotz Nominatim Return rauszufiltern
 function matchesQuery(location: Location, query: string): boolean {
   const primaryName = location.displayName.split(',')[0]?.trim().toLowerCase() ?? '';
   return primaryName.includes(query.trim().toLowerCase());

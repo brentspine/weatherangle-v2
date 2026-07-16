@@ -1,0 +1,28 @@
+@if (variant() === 'outside' && title()) {
+  <h3 class="card-title-outside">{{ title() }}</h3>
+}
+
+<div class="card" [class.card--colored-header]="variant() === 'colored-header'">
+  @if (variant() === 'colored-header') {
+    <div
+      class="card-header"
+      [class.accent-blue]="accent() === 'blue'"
+      [class.accent-red]="accent() === 'red'"
+    >
+      @if (icon()) {
+        <span class="card-header-icon-badge">
+          <span class="material-symbols-outlined">{{ icon() }}</span>
+        </span>
+      }
+      <span class="card-header-title">{{ title() }}</span>
+    </div>
+  }
+
+  @if (variant() === 'inside' && title()) {
+    <h3 class="card-title-inside">{{ title() }}</h3>
+  }
+
+  <div class="card-body">
+    <ng-content />
+  </div>
+</div>

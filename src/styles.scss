@@ -52,13 +52,19 @@
 
   --color-success-background: rgba(25, 135, 84, 0.18);
   --color-success-text: #9ff0bd;
+
+  --color-card-header-blue: rgba(38, 103, 255, 0.85);
+  --color-card-header-red: rgba(221, 27, 22, 0.85);
 }
 
 body {
   color-scheme: dark;
 }
 
-// Shared across auth-layout/email-step/code-step, each a separately style-encapsulated component.
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0;
+}
+
 .welcome-header {
   margin: 0 0 0.55rem;
   text-align: left;

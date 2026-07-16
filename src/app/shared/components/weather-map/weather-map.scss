@@ -1,0 +1,17 @@
+:host {
+  display: block;
+}
+
+.map-container {
+  width: 460px;
+  max-width: 100%;
+  height: 570px;
+  border-radius: 0.9rem;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .map-container {
+    height: 380px;
+  }
+}

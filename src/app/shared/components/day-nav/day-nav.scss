@@ -1,0 +1,110 @@
+.day-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  // Der Chevron-Cluster ist absolut positioniert und befindet sich vollständig im Spaltenzwischenraum der Seite
+  // Deswegen muss der Overflow sichtbar sein
+  overflow: visible;
+}
+
+.day-nav-viewport {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.day-nav-track {
+  display: flex;
+  gap: 12px;
+  transition: transform 0.25s ease;
+}
+
+.day-card {
+  flex: 0 0 120px;
+  width: 120px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding: 0 0.6rem;
+  border: 2px solid transparent;
+  border-radius: 0.6rem;
+  background: var(--color-box);
+  color: var(--color-text-main);
+  cursor: pointer;
+
+  &.selected {
+    border: 2px solid var(--color-accent);
+  }
+}
+
+.day-card-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  min-width: 0;
+}
+
+.day-card-weekday {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.day-card-date {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.day-card-icon {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+// Absolutely positioned so the viewport keeps the section's full width (day-nav-viewport
+// stays flex: 1 with nothing else in the flow); pushed well clear of the box's right edge
+// so it reads as a separate control rather than part of the card row.
+.chevron-cluster {
+  position: absolute;
+  top: 50%;
+  right: -3.75rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  z-index: 1;
+}
+
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text-main);
+  cursor: pointer;
+
+  .material-symbols-outlined {
+    font-size: 1.1rem;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+}
+
+@media (max-width: 900px) {
+  .chevron-cluster {
+    position: static;
+    transform: none;
+    margin-left: 0.4rem;
+  }
+}

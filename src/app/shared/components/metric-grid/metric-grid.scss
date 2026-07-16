@@ -1,0 +1,36 @@
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1rem 1.25rem;
+}
+
+.metric-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.metric-icon {
+  font-size: 1.375rem;
+  color: var(--color-text-main);
+  flex-shrink: 0;
+}
+
+.metric-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.metric-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

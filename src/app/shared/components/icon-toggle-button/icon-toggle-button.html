@@ -1,0 +1,10 @@
+<button
+  type="button"
+  class="icon-toggle"
+  [class.active]="active()"
+  [attr.aria-pressed]="active()"
+  [attr.aria-label]="ariaLabel() || null"
+  (click)="onClick()"
+>
+  <span class="material-symbols-outlined">{{ icon() }}</span>
+</button>

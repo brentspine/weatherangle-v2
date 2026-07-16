@@ -1,0 +1,29 @@
+<div class="day-nav">
+  <div class="day-nav-viewport" #viewport>
+    <div class="day-nav-track" [style.transform]="trackTransform()">
+      @for (day of days(); track day.time; let i = $index) {
+        <button
+          type="button"
+          class="day-card"
+          [class.selected]="i === selectedIndex()"
+          (click)="selectDay(i)"
+        >
+          <div class="day-card-text">
+            <span class="day-card-weekday">{{ day.time | weekdayAbbrev }}</span>
+            <span class="day-card-date">{{ day.time | dayMonth }}</span>
+          </div>
+          <img class="day-card-icon" [src]="day.weatherCode | weatherIconUrl: true" alt="" />
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="chevron-cluster">
+    <button type="button" class="chevron" [disabled]="!canGoPrev()" (click)="goPrev()" aria-label="Previous days">
+      <span class="material-symbols-outlined">chevron_left</span>
+    </button>
+    <button type="button" class="chevron" [disabled]="!canGoNext()" (click)="goNext()" aria-label="More days">
+      <span class="material-symbols-outlined">chevron_right</span>
+    </button>
+  </div>
+</div>

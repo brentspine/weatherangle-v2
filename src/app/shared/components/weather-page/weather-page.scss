@@ -1,0 +1,81 @@
+.weather-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+  column-gap: clamp(3rem, 6vw, 5.5rem);
+  align-items: start;
+  padding-block: clamp(1.25rem, 3vw, 3rem);
+  padding-inline: clamp(2rem, 8vw, 6rem);
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 2.5vw, 2.25rem);
+  min-width: 0;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.temperature {
+  margin: 0;
+  font-size: 82px;
+  font-weight: 700;
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+.place-name {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.lat-lon {
+  margin: 0;
+  font-size: 12px;
+  color: #d0d0d0;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.info-warning-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.placeholder-text {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 900px) {
+  .weather-page {
+    grid-template-columns: 1fr;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+  }
+
+  .right-column {
+    order: -1;
+  }
+
+  .temperature {
+    font-size: 56px;
+  }
+
+  .info-warning-row {
+    grid-template-columns: 1fr;
+  }
+}

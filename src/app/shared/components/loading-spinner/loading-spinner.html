@@ -1,1 +1,4 @@
 <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+@if (loadedAt + 5000 < Date.now()) {
+  <span class="visually-hidden">Loading is taking longer than expected...</span>
+}

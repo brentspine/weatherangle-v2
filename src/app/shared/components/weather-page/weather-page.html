@@ -1,0 +1,57 @@
+<div class="weather-page">
+  <section class="left-column">
+    <app-day-nav
+      [days]="daily()"
+      [selectedIndex]="selectedDayIndex()"
+      (daySelected)="onDaySelected($event)"
+    />
+
+    @if (selectedDaily(); as day) {
+      <app-weather-card variant="outside" [title]="(day.time | dayMonth) + ' im Überblick'">
+        <app-metric-grid [metrics]="metricsCardA()" />
+      </app-weather-card>
+
+      <app-weather-card variant="outside" [title]="(day.time | dayMonth) + ' im Überblick'">
+        <app-metric-grid [metrics]="metricsCardB()" />
+      </app-weather-card>
+    }
+
+    <div class="info-warning-row">
+      <app-weather-card variant="colored-header" accent="blue" icon="info" title="Aktuelle Informationen">
+        <p class="placeholder-text">Noch keine Informationen verfügbar.</p>
+      </app-weather-card>
+      <app-weather-card variant="colored-header" accent="red" icon="warning" title="Aktuelle Warnungen">
+        <p class="placeholder-text">Keine aktuellen Warnungen.</p>
+      </app-weather-card>
+    </div>
+  </section>
+
+  <section class="right-column">
+    <p class="temperature">{{ rightTemperature() | metricValue: 'celsius' }}</p>
+    <h1 class="place-name">{{ placeName() }}</h1>
+    <p class="lat-lon">Lat: {{ location().lat }}&nbsp;&nbsp;&nbsp;&nbsp;Lon: {{ location().lon }}</p>
+
+    <div class="toggle-row">
+      <app-icon-toggle-button
+        icon="star"
+        [active]="isStartPage()"
+        ariaLabel="Als Startseite festlegen"
+        (toggled)="onStartPageToggled($event)"
+      />
+      <app-icon-toggle-button
+        icon="favorite"
+        [active]="isFavorite()"
+        ariaLabel="Als Favorit markieren"
+        (toggled)="onFavoriteToggled($event)"
+      />
+    </div>
+
+    <app-weather-map
+      [lat]="location().lat"
+      [lon]="location().lon"
+      [boundingBox]="location().boundingBox"
+      [markerLabel]="placeName()"
+      (nearbySettlementSelected)="onNearbySettlementSelected($event)"
+    />
+  </section>
+</div>
