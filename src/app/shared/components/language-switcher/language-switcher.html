@@ -1,0 +1,15 @@
+<div class="lang-switcher" role="group" aria-label="Language">
+  <button
+    type="button"
+    class="lang-btn"
+    [class.active]="i18n.currentLang() === 'de'"
+    (click)="setLanguage('de')"
+  >{{ 'nav.lang_de' | translate }}</button>
+  <span class="lang-sep">|</span>
+  <button
+    type="button"
+    class="lang-btn"
+    [class.active]="i18n.currentLang() === 'en'"
+    (click)="setLanguage('en')"
+  >{{ 'nav.lang_en' | translate }}</button>
+</div>

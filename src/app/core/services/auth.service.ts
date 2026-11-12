@@ -12,7 +12,7 @@ import {
   throwError,
   timeout,
 } from 'rxjs';
-import { CurrentUser, LoginRequest } from '../models/auth.models';
+import { AuthResponse, CurrentUser, LoginRequest } from '../models/auth.models';
 import { AuthApiService } from './auth-api.service';
 
 const ACCESS_TOKEN_STORAGE_KEY = 'wa_access_token';
@@ -98,6 +98,10 @@ export class AuthService {
         return of(undefined);
       }),
     );
+  }
+
+  updateTokens(response: AuthResponse): void {
+    this.storeTokens(response.accessToken, response.refreshToken);
   }
 
   private storeTokens(accessToken: string, refreshToken: string): void {

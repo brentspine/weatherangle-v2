@@ -20,13 +20,16 @@ import {
 } from 'rxjs';
 import { Location } from '../../../core/models/location.models';
 import { AuthService } from '../../../core/services/auth.service';
+import { I18nService } from '../../../core/services/i18n.service';
 import { LocationService } from '../../../core/services/location.service';
 import { SurpriseLocationService } from '../../../core/services/surprise-location.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { LanguageSwitcher } from '../language-switcher/language-switcher';
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, FormsModule, NgbTypeahead, NgOptimizedImage],
+  imports: [RouterLink, FormsModule, NgbTypeahead, NgOptimizedImage, TranslatePipe, LanguageSwitcher],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.html',
   styleUrl: './header.scss',
@@ -37,6 +40,7 @@ export class Header {
   private readonly surpriseLocationService = inject(SurpriseLocationService);
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
+  protected readonly i18n = inject(I18nService);
 
   protected readonly isAuthenticated = this.authService.isAuthenticated;
   protected readonly menuOpen = signal(false);

@@ -133,6 +133,12 @@
   }
 }
 
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0.25rem 0;
+}
+
 @media (max-width: 640px) {
   .search-bar {
     width: clamp(6rem, 26vw, 9rem);

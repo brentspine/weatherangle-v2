@@ -1,31 +1,33 @@
-<app-auth-layout title="Create your account">
+<app-auth-layout [title]="'auth.register.title' | translate">
   @if (!verificationToken()) {
     <app-verification-stepper [texts]="texts" [endpoints]="endpoints" (verified)="onVerified($event)" />
   } @else {
+    <h2 class="welcome-header">{{ 'auth.register.final_title' | translate }}</h2>
+    <p class="welcome-text">{{ 'auth.register.final_subtitle' | translate }}</p>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <app-form-error [message]="errorMessage()" />
 
       <div class="mb-3 text-start">
-        <label for="register-username-input" class="form-label">Username</label>
+        <label for="register-username-input" class="form-label">{{ 'auth.username' | translate }}</label>
         <input
           id="register-username-input"
           type="text"
           class="form-control"
           formControlName="username"
           autocomplete="username"
-          placeholder="Username"
+          [placeholder]="'auth.username' | translate"
         >
       </div>
 
       <div class="mb-3 text-start">
-        <label for="register-password-input" class="form-label">Password</label>
+        <label for="register-password-input" class="form-label">{{ 'auth.password' | translate }}</label>
         <input
           id="register-password-input"
           type="password"
           class="form-control"
           formControlName="password"
           autocomplete="new-password"
-          placeholder="Password"
+          [placeholder]="'auth.password' | translate"
         >
       </div>
 
@@ -33,12 +35,12 @@
         @if (loading()) {
           <app-loading-spinner />
         }
-        Create account
+        {{ 'auth.register.submit' | translate }}
       </button>
     </form>
   }
 
   <p class="create-account">
-    Already have an account? <a routerLink="/login">Sign in</a>
+    {{ 'auth.register.has_account' | translate }} <a routerLink="/login">{{ 'auth.register.login_link' | translate }}</a>
   </p>
 </app-auth-layout>

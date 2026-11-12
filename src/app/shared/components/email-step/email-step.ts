@@ -1,18 +1,21 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { I18nService } from '../../../core/services/i18n.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { FormError } from '../form-error/form-error';
 import { LoadingSpinner } from '../loading-spinner/loading-spinner';
 
 @Component({
   selector: 'app-email-step',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, ReactiveFormsModule, FormError, LoadingSpinner],
+  imports: [FormsModule, ReactiveFormsModule, FormError, LoadingSpinner, TranslatePipe],
   templateUrl: './email-step.html',
   styleUrl: './email-step.scss',
 })
 export class EmailStep {
+  protected readonly i18n = inject(I18nService);
   readonly subtitle = input('');
-  readonly submitLabel = input('Continue');
+  readonly submitLabel = input('');
   readonly loading = input(false);
   readonly errorMessage = input<string | null>(null);
 

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Place } from '../models/auth.models';
+import { AuthResponse, Place } from '../models/auth.models';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +25,13 @@ export class UserApiService {
 
   removeFavourite(place: Place): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/favourites/remove`, place);
+  }
+
+  changeUsername(username: string): Observable<AuthResponse> {
+    return this.http.patch<AuthResponse>(`${this.baseUrl}/username`, { username });
+  }
+
+  deleteAccount(password: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/user`, { body: { password } });
   }
 }

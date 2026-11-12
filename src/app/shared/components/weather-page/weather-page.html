@@ -1,57 +1,88 @@
-<div class="weather-page">
-  <section class="left-column">
-    <app-day-nav
-      [days]="daily()"
-      [selectedIndex]="selectedDayIndex()"
-      (daySelected)="onDaySelected($event)"
-    />
-
-    @if (selectedDaily(); as day) {
-      <app-weather-card variant="outside" [title]="(day.time | dayMonth) + ' im Überblick'">
-        <app-metric-grid [metrics]="metricsCardA()" />
-      </app-weather-card>
-
-      <app-weather-card variant="outside" [title]="(day.time | dayMonth) + ' im Überblick'">
-        <app-metric-grid [metrics]="metricsCardB()" />
-      </app-weather-card>
-    }
-
-    <div class="info-warning-row">
-      <app-weather-card variant="colored-header" accent="blue" icon="info" title="Aktuelle Informationen">
-        <p class="placeholder-text">Noch keine Informationen verfügbar.</p>
-      </app-weather-card>
-      <app-weather-card variant="colored-header" accent="red" icon="warning" title="Aktuelle Warnungen">
-        <p class="placeholder-text">Keine aktuellen Warnungen.</p>
-      </app-weather-card>
-    </div>
-  </section>
-
-  <section class="right-column">
-    <p class="temperature">{{ rightTemperature() | metricValue: 'celsius' }}</p>
-    <h1 class="place-name">{{ placeName() }}</h1>
-    <p class="lat-lon">Lat: {{ location().lat }}&nbsp;&nbsp;&nbsp;&nbsp;Lon: {{ location().lon }}</p>
-
-    <div class="toggle-row">
-      <app-icon-toggle-button
-        icon="star"
-        [active]="isStartPage()"
-        ariaLabel="Als Startseite festlegen"
-        (toggled)="onStartPageToggled($event)"
+@if (forecastResource.error()) {
+  <app-error-page [statusCode]="503" />
+} @else {
+  <div class="weather-page">
+    <section class="left-column">
+      <app-day-nav
+        [days]="daily()"
+        [selectedIndex]="selectedDayIndex()"
+        (daySelected)="onDaySelected($event)"
       />
-      <app-icon-toggle-button
-        icon="favorite"
-        [active]="isFavorite()"
-        ariaLabel="Als Favorit markieren"
-        (toggled)="onFavoriteToggled($event)"
-      />
-    </div>
 
-    <app-weather-map
-      [lat]="location().lat"
-      [lon]="location().lon"
-      [boundingBox]="location().boundingBox"
-      [markerLabel]="placeName()"
-      (nearbySettlementSelected)="onNearbySettlementSelected($event)"
-    />
-  </section>
-</div>
+      <app-hourly-forecast
+        [hours]="hoursForSelectedDay()"
+        [currentHourIndex]="currentHourIndex()"
+      />
+
+      @if (selectedDaily(); as day) {
+        <app-weather-card variant="outside" [title]="('weather.overview_sun' | translate) + ' — ' + (day.time | dayMonth)">
+          <app-metric-grid [metrics]="metricsCardA()" />
+        </app-weather-card>
+
+        <app-weather-card variant="outside" [title]="('weather.overview_wind' | translate) + ' — ' + (day.time | dayMonth)">
+          <app-metric-grid [metrics]="metricsCardB()" />
+        </app-weather-card>
+      }
+
+      <div class="info-warning-row">
+        <app-weather-card variant="colored-header" accent="blue" icon="info" [title]="'weather.info_title' | translate">
+          <p class="placeholder-text">{{ 'weather.no_info' | translate }}</p>
+        </app-weather-card>
+        <app-weather-card variant="colored-header" accent="red" icon="warning" [title]="'weather.warnings_title' | translate">
+          <p class="placeholder-text">{{ 'weather.no_warnings' | translate }}</p>
+        </app-weather-card>
+      </div>
+    </section>
+
+    <section class="right-column">
+      <p class="temperature">{{ rightTemperature() | metricValue: 'celsius' }}</p>
+      <h1 class="place-name">{{ placeName() }}</h1>
+      <p class="lat-lon">Lat: {{ location().lat }}&nbsp;&nbsp;&nbsp;&nbsp;Lon: {{ location().lon }}</p>
+
+      <div class="toggle-row">
+        <app-icon-toggle-button
+          icon="star"
+          [active]="isStartPage()"
+          [ariaLabel]="'marker.set_start' | translate"
+          (toggled)="onStartPageToggled($event)"
+        />
+        <app-icon-toggle-button
+          icon="favorite"
+          [active]="isFavorite()"
+          [ariaLabel]="'marker.add_favourite' | translate"
+          (toggled)="onFavoriteToggled($event)"
+        />
+      </div>
+
+      @if (current(); as cur) {
+        <div class="current-summary">
+          <p class="weather-desc">{{ currentWeatherKey() | translate }}</p>
+          <div class="summary-row">
+            @if (cur.apparentTemperature != null) {
+              <span class="summary-item">{{ 'weather.apparent_temperature' | translate }}: {{ cur.apparentTemperature | metricValue: 'celsius' }}</span>
+            }
+            @if (cur.relativeHumidity != null) {
+              <span class="summary-item">{{ 'weather.humidity' | translate }}: {{ cur.relativeHumidity | metricValue: 'percent' }}</span>
+            }
+            @if (cur.windSpeed != null) {
+              <span class="summary-item">{{ 'weather.wind_speed' | translate }}: {{ cur.windSpeed | metricValue: 'kmh' }}</span>
+            }
+            @if (selectedDaily(); as day) {
+              @if (day.uvIndexMax != null) {
+                <span class="summary-item">{{ 'weather.uv_index' | translate }}: {{ day.uvIndexMax | metricValue: 'index' }}</span>
+              }
+            }
+          </div>
+        </div>
+      }
+
+      <app-weather-map
+        [lat]="location().lat"
+        [lon]="location().lon"
+        [boundingBox]="location().boundingBox"
+        [markerLabel]="placeName()"
+        (nearbySettlementSelected)="onNearbySettlementSelected($event)"
+      />
+    </section>
+  </div>
+}

@@ -3,14 +3,14 @@
     @if (subtitle()) {
       {{ subtitle() }}
     } @else {
-      We sent a 6-digit code to <strong>{{ email() }}</strong>.
+      {{ 'verify.code_sent' | translate }} <strong>{{ email() }}</strong>.
     }
   </p>
 
   <app-form-error [message]="errorMessage()" />
 
   <div class="mb-3 text-start">
-    <label for="code-step-input" class="form-label">Verification code</label>
+    <label for="code-step-input" class="form-label">{{ 'verify.code_label' | translate }}</label>
     <input
       id="code-step-input"
       type="text"
@@ -22,7 +22,7 @@
       placeholder="123456"
     >
     @if (codeControl.invalid && codeControl.touched) {
-      <div class="form-text text-danger">Enter the 6-digit code.</div>
+      <div class="form-text text-danger">{{ 'verify.code_invalid' | translate }}</div>
     }
   </div>
 
@@ -30,11 +30,11 @@
     @if (loading()) {
       <app-loading-spinner />
     }
-    {{ submitLabel() }}
+    {{ submitLabel() || ('auth.register.code_submit' | translate) }}
   </button>
 
   <div class="d-flex justify-content-between">
-    <button type="button" class="btn btn-link p-0" (click)="back.emit()">Change email</button>
-    <button type="button" class="btn btn-link p-0" (click)="resend.emit()">Resend code</button>
+    <button type="button" class="btn btn-link p-0" (click)="back.emit()">{{ 'verify.change_email' | translate }}</button>
+    <button type="button" class="btn btn-link p-0" (click)="resend.emit()">{{ 'verify.resend_code' | translate }}</button>
   </div>
 </form>

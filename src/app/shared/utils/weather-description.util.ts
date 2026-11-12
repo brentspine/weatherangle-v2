@@ -1,3 +1,4 @@
+import { TranslationKey } from '../../core/i18n/translations';
 import { Forecast } from '../../core/models/weather.models';
 import { Season, TimePeriodOfDay, WeatherDescription } from '../../core/services/background-service';
 
@@ -46,6 +47,22 @@ function deriveTimePeriodOfDay(date: Date, sunrise?: Date, sunset?: Date): TimeP
   if (hour < 10) return TimePeriodOfDay.morning;
   if (hour < 17) return TimePeriodOfDay.noon;
   return TimePeriodOfDay.evening;
+}
+
+const WMO_KEY_MAP: Partial<Record<number, TranslationKey>> = {
+  0: 'wmo.0', 1: 'wmo.1', 2: 'wmo.2', 3: 'wmo.3',
+  45: 'wmo.45', 48: 'wmo.48',
+  51: 'wmo.51', 53: 'wmo.53', 55: 'wmo.55',
+  61: 'wmo.61', 63: 'wmo.63', 65: 'wmo.65',
+  71: 'wmo.71', 73: 'wmo.73', 75: 'wmo.75', 77: 'wmo.77',
+  80: 'wmo.80', 81: 'wmo.81', 82: 'wmo.82',
+  85: 'wmo.85', 86: 'wmo.86',
+  95: 'wmo.95', 96: 'wmo.96', 99: 'wmo.99',
+};
+
+export function wmoCodeToKey(code: number | undefined): TranslationKey {
+  if (code === undefined) return 'wmo.unknown';
+  return WMO_KEY_MAP[code] ?? 'wmo.unknown';
 }
 
 // Für Auto-Hintergrund

@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthApiService } from '../../../core/services/auth-api.service';
+import { I18nService } from '../../../core/services/i18n.service';
 import { AuthLayout } from '../../../shared/components/auth-layout/auth-layout';
 import { FormError } from '../../../shared/components/form-error/form-error';
 import { LoadingSpinner } from '../../../shared/components/loading-spinner/loading-spinner';
@@ -11,12 +12,13 @@ import {
   VerificationStepper,
   VerificationStepperTexts,
 } from '../../../shared/components/verification-stepper/verification-stepper';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { extractApiErrorMessage } from '../../../shared/utils/api-error.util';
 
 @Component({
   selector: 'app-register',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, AuthLayout, VerificationStepper, FormError, LoadingSpinner],
+  imports: [ReactiveFormsModule, RouterLink, AuthLayout, VerificationStepper, FormError, LoadingSpinner, TranslatePipe],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
@@ -24,14 +26,20 @@ export class Register {
   private readonly fb = inject(FormBuilder);
   private readonly authApi = inject(AuthApiService);
   private readonly router = inject(Router);
+  protected readonly i18n = inject(I18nService);
 
   protected readonly verificationToken = signal<string | null>(null);
   protected readonly loading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
 
-  protected readonly texts: VerificationStepperTexts = {
-    emailSubtitle: 'Enter your email to get started.',
-  };
+  protected get texts(): VerificationStepperTexts {
+    return {
+      emailSubtitle: this.i18n.translate('auth.register.email_subtitle'),
+      emailSubmitLabel: this.i18n.translate('auth.register.email_submit'),
+      codeSubtitle: this.i18n.translate('auth.register.code_subtitle'),
+      codeSubmitLabel: this.i18n.translate('auth.register.code_submit'),
+    };
+  }
 
   protected readonly endpoints: VerificationEndpoints = {
     requestCode: (email) => this.authApi.registerRequestEmail(email),

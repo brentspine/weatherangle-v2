@@ -1,0 +1,31 @@
+@if (hours().length > 0) {
+  <div class="hourly-forecast">
+    <div class="scroll-strip">
+      @for (hour of hours(); track hour.time; let i = $index) {
+        <button
+          #hourCard
+          class="hour-card"
+          [class.current]="isCurrentHour(i)"
+          [class.selected]="selectedIndex() === i"
+          (click)="selectHour(i)"
+          type="button"
+        >
+          <span class="hour-time">{{ isCurrentHour(i) ? ('hourly.now' | translate) : formatHour(hour.time) }}</span>
+          <img
+            class="hour-icon"
+            [src]="hour.weatherCode | weatherIconUrl"
+            [alt]="hour.weatherCode.toString()"
+          />
+          <span class="hour-temp">{{ hour.temperature | metricValue: 'celsius' }}</span>
+          @if (hour.precipitationProbability != null && hour.precipitationProbability > 0) {
+            <span class="hour-precip">{{ hour.precipitationProbability | metricValue: 'percent' }}</span>
+          }
+        </button>
+      }
+    </div>
+
+    <div class="detail-strip">
+      <app-metric-grid [metrics]="detailMetrics()" />
+    </div>
+  </div>
+}

@@ -1,0 +1,81 @@
+.hourly-forecast {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.scroll-strip {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.25rem;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border, rgba(255, 255, 255, 0.2));
+    border-radius: 2px;
+  }
+}
+
+.hour-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.07);
+  cursor: pointer;
+  min-width: 60px;
+  color: inherit;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  &.current {
+    border-color: var(--color-accent, rgba(255, 255, 255, 0.4));
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  &.selected {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.hour-time {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.hour-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.hour-temp {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.hour-precip {
+  font-size: 0.65rem;
+  opacity: 0.75;
+  color: #7ecbff;
+}
+
+.detail-strip {
+  padding: 0.5rem 0;
+}

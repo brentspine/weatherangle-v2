@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { NearbySettlement } from '../../../core/models/overpass.models';
+import { I18nService } from '../../../core/services/i18n.service';
 import { WeatherService } from '../../../core/services/weather.service';
 import { MetricValuePipe } from '../../pipes/metric-value.pipe';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 import { WeatherIconUrlPipe } from '../../pipes/weather-icon-url.pipe';
 
 @Component({
   selector: 'app-nearby-settlement-marker',
-  imports: [MetricValuePipe, WeatherIconUrlPipe],
+  imports: [MetricValuePipe, WeatherIconUrlPipe, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './nearby-settlement-marker.html',
   styleUrl: './nearby-settlement-marker.scss',
@@ -19,6 +21,7 @@ export class NearbySettlementMarker {
   readonly activated = output<void>();
 
   private readonly weatherService = inject(WeatherService);
+  protected readonly i18n = inject(I18nService);
 
   protected readonly expanded = signal(false);
 

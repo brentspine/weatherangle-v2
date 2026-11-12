@@ -8,7 +8,7 @@
         type="button"
         class="nearby-marker-chevron"
         (click)="onDetailsClick($event)"
-        aria-label="Details anzeigen"
+        [attr.aria-label]="'marker.show_details' | translate"
       >
         <span class="material-symbols-outlined">chevron_right</span>
       </button>

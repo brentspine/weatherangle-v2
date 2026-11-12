@@ -1,10 +1,150 @@
 <app-header />
 
 <main class="account-page">
-  <section class="account-box">
-    <h1 class="welcome-header">Welcome {{ currentUser()?.username}}</h1>
-    <p class="welcome-text">Account settings are coming soon.</p>
+  <div class="account-grid">
 
-    <button type="button" class="btn btn-primary w-100" (click)="onLogout()">Log out</button>
-  </section>
+    <!-- Card 1: Profile -->
+    <app-weather-card variant="outside" [title]="'account.profile' | translate">
+      <div class="card-section">
+        <div class="field-row">
+          <span class="field-label">{{ 'account.email_label' | translate }}</span>
+          <span class="field-value">{{ currentUser()?.email }}</span>
+        </div>
+
+        <div class="field-row">
+          <span class="field-label">{{ 'account.username_label' | translate }}</span>
+          @if (!editingUsername()) {
+            <span class="field-value">{{ currentUser()?.username }}</span>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="startEditUsername()">
+              {{ 'account.edit_username' | translate }}
+            </button>
+          } @else {
+            <form class="inline-form" [formGroup]="usernameForm" (ngSubmit)="saveUsername()">
+              <input
+                class="form-control form-control-sm"
+                type="text"
+                formControlName="username"
+                autocomplete="username"
+              />
+              <button type="submit" class="btn btn-sm btn-primary" [disabled]="usernameLoading()">
+                {{ 'account.save' | translate }}
+              </button>
+              <button type="button" class="btn btn-sm btn-secondary" (click)="cancelEditUsername()">
+                {{ 'account.cancel' | translate }}
+              </button>
+            </form>
+          }
+        </div>
+      </div>
+    </app-weather-card>
+
+    <!-- Card 2: Security -->
+    <app-weather-card variant="outside" [title]="'account.security' | translate">
+      <div class="card-section">
+        @if (!showPasswordChange()) {
+          <button type="button" class="btn btn-secondary" (click)="showPasswordChange.set(true)">
+            {{ 'account.change_password' | translate }}
+          </button>
+        } @else if (passwordToken()) {
+          <form class="stacked-form" [formGroup]="passwordForm" (ngSubmit)="submitNewPassword()">
+            <input
+              class="form-control"
+              type="password"
+              [placeholder]="'auth.new_password' | translate"
+              formControlName="newPassword"
+              autocomplete="new-password"
+            />
+            <div class="btn-row">
+              <button type="submit" class="btn btn-primary" [disabled]="passwordLoading()">
+                {{ 'account.save' | translate }}
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="showPasswordChange.set(false); passwordToken.set(null)">
+                {{ 'account.cancel' | translate }}
+              </button>
+            </div>
+          </form>
+        } @else {
+          <app-verification-stepper
+            [texts]="passwordStepperTexts"
+            [endpoints]="passwordResetEndpoints"
+            (verified)="onPasswordVerified($event)"
+          />
+        }
+      </div>
+    </app-weather-card>
+
+    <!-- Card 3: My Places -->
+    <app-weather-card variant="outside" [title]="'account.my_places' | translate">
+      <div class="card-section">
+        <h4 class="places-subheader">{{ 'account.start_location' | translate }}</h4>
+        @if (startLocationResource.value(); as loc) {
+          <div class="place-row">
+            <a [routerLink]="['/places', '@' + loc.lat + ',' + loc.lon]" class="place-name">{{ loc.displayName }}</a>
+            <button type="button" class="btn btn-sm btn-secondary" (click)="clearStartLocation()">
+              {{ 'account.clear_start_location' | translate }}
+            </button>
+          </div>
+        } @else {
+          <p class="muted-text">{{ 'account.no_start_location' | translate }}</p>
+        }
+
+        <h4 class="places-subheader">{{ 'account.favourites' | translate }}</h4>
+        @if ((currentUser()?.favourites?.length ?? 0) > 0) {
+          @for (fav of favouritesResource.value() ?? []; track fav.place.lat + ',' + fav.place.lon) {
+            <div class="place-row">
+              <a [routerLink]="['/places', '@' + fav.place.lat + ',' + fav.place.lon]" class="place-name">{{ fav.name }}</a>
+              <button type="button" class="btn btn-sm btn-secondary" (click)="removeFavourite(fav.place)">
+                {{ 'account.remove_favourite' | translate }}
+              </button>
+            </div>
+          }
+        } @else {
+          <p class="muted-text">{{ 'account.no_favourites' | translate }}</p>
+          @for (loc of randomSuggestions(); track loc.lat + ',' + loc.lon) {
+            <div class="place-row">
+              <span class="place-name">{{ loc.lat.toFixed(2) }}, {{ loc.lon.toFixed(2) }}</span>
+              <a [routerLink]="['/places', '@' + loc.lat + ',' + loc.lon]" class="btn btn-sm btn-secondary">
+                {{ 'account.random_suggestion' | translate }}
+              </a>
+            </div>
+          }
+        }
+      </div>
+    </app-weather-card>
+
+    <!-- Card 4: Danger Zone -->
+    <app-weather-card variant="colored-header" accent="red" icon="warning" [title]="'account.danger_zone' | translate">
+      <div class="card-section">
+        @if (!showDeleteConfirm()) {
+          <button type="button" class="btn btn-danger" (click)="showDeleteConfirm.set(true)">
+            {{ 'account.delete_account' | translate }}
+          </button>
+        } @else {
+          <p class="danger-text">{{ 'account.delete_confirm_text' | translate }}</p>
+          <form class="stacked-form" [formGroup]="deleteForm" (ngSubmit)="confirmDelete()">
+            <input
+              class="form-control"
+              type="password"
+              [placeholder]="'auth.password' | translate"
+              formControlName="password"
+              autocomplete="current-password"
+            />
+            <div class="btn-row">
+              <button type="submit" class="btn btn-danger" [disabled]="deleteLoading()">
+                {{ 'account.delete_submit' | translate }}
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="showDeleteConfirm.set(false)">
+                {{ 'account.cancel' | translate }}
+              </button>
+            </div>
+          </form>
+        }
+      </div>
+    </app-weather-card>
+
+    <div class="logout-row">
+      <button type="button" class="btn btn-secondary" (click)="onLogout()">{{ 'nav.logout' | translate }}</button>
+    </div>
+
+  </div>
 </main>

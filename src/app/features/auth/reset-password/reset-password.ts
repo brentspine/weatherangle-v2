@@ -10,6 +10,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { catchError, map, of, throwError } from 'rxjs';
 import { AuthApiService } from '../../../core/services/auth-api.service';
+import { I18nService } from '../../../core/services/i18n.service';
 import { AuthLayout } from '../../../shared/components/auth-layout/auth-layout';
 import { FormError } from '../../../shared/components/form-error/form-error';
 import { LoadingSpinner } from '../../../shared/components/loading-spinner/loading-spinner';
@@ -18,6 +19,7 @@ import {
   VerificationStepper,
   VerificationStepperTexts,
 } from '../../../shared/components/verification-stepper/verification-stepper';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { extractApiErrorMessage } from '../../../shared/utils/api-error.util';
 
 function passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -29,7 +31,7 @@ function passwordsMatchValidator(control: AbstractControl): ValidationErrors | n
 @Component({
   selector: 'app-reset-password',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, AuthLayout, VerificationStepper, FormError, LoadingSpinner],
+  imports: [ReactiveFormsModule, RouterLink, AuthLayout, VerificationStepper, FormError, LoadingSpinner, TranslatePipe],
   templateUrl: './reset-password.html',
   styleUrl: './reset-password.scss',
 })
@@ -37,14 +39,20 @@ export class ResetPassword {
   private readonly fb = inject(FormBuilder);
   private readonly authApi = inject(AuthApiService);
   private readonly router = inject(Router);
+  protected readonly i18n = inject(I18nService);
 
   protected readonly resetToken = signal<string | null>(null);
   protected readonly loading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
 
-  protected readonly texts: VerificationStepperTexts = {
-    emailSubtitle: "Enter your account's email and we'll send you a code.",
-  };
+  protected get texts(): VerificationStepperTexts {
+    return {
+      emailSubtitle: this.i18n.translate('auth.reset.email_subtitle'),
+      emailSubmitLabel: this.i18n.translate('auth.reset.email_submit'),
+      codeSubtitle: this.i18n.translate('auth.reset.code_subtitle'),
+      codeSubmitLabel: this.i18n.translate('auth.reset.code_submit'),
+    };
+  }
 
   protected readonly endpoints: VerificationEndpoints = {
     // 404 wird als Erfolg behandelt, um E-Mail-Enumeration zu verhindern

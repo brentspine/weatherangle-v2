@@ -1,28 +1,31 @@
-<app-auth-layout title="Welcome back" subtitle="Sign in to have the perfect experience.">
+<app-auth-layout
+  [title]="'auth.login.title' | translate"
+  [subtitle]="'auth.login.subtitle' | translate"
+>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <app-form-error [message]="errorMessage()" />
 
     <div class="mb-3 text-start">
-      <label for="username-input" class="form-label">Username</label>
+      <label for="username-input" class="form-label">{{ 'auth.username' | translate }}</label>
       <input
         id="username-input"
         type="text"
         class="form-control"
         formControlName="username"
         autocomplete="username"
-        placeholder="Username"
+        [placeholder]="'auth.username' | translate"
       >
     </div>
 
     <div class="mb-3 text-start">
-      <label for="password-input" class="form-label">Password</label>
+      <label for="password-input" class="form-label">{{ 'auth.password' | translate }}</label>
       <input
         id="password-input"
         type="password"
         class="form-control"
         formControlName="password"
         autocomplete="current-password"
-        placeholder="Password"
+        [placeholder]="'auth.password' | translate"
       >
     </div>
 
@@ -30,14 +33,14 @@
       @if (loading()) {
         <app-loading-spinner />
       }
-      Login
+      {{ 'auth.login.submit' | translate }}
     </button>
 
     <p class="create-account">
-      <a routerLink="/password-reset">Forgot your password?</a>
+      <a routerLink="/password-reset">{{ 'auth.login.forgot_password' | translate }}</a>
     </p>
     <p class="create-account">
-      New here? <a routerLink="/register">Create account</a>
+      {{ 'auth.login.no_account' | translate }} <a routerLink="/register">{{ 'auth.login.register_link' | translate }}</a>
     </p>
   </form>
 </app-auth-layout>

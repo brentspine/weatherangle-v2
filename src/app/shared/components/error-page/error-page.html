@@ -1,0 +1,6 @@
+<div class="error-page">
+  <img class="dog-image" [src]="imageUrl()" [alt]="'error code ' + statusCode()" />
+  <h1 class="error-title">{{ info().titleKey | translate }}</h1>
+  <p class="error-text">{{ info().textKey | translate }}</p>
+  <a routerLink="/" class="btn btn-primary">{{ 'error.go_home' | translate }}</a>
+</div>

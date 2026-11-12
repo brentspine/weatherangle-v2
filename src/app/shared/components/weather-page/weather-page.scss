@@ -49,6 +49,33 @@
   margin-bottom: 0.25rem;
 }
 
+.current-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.weather-desc {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.summary-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 0.75rem;
+}
+
+.summary-item {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
 .info-warning-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

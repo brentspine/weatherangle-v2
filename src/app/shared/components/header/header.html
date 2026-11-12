@@ -4,11 +4,13 @@
   </a>
 
   <div class="header-right">
+    <app-language-switcher />
+
     <div class="search-bar">
       <input
         type="text"
         class="search-input"
-        placeholder="Search..."
+        [placeholder]="'nav.search' | translate"
         autocomplete="off"
         [ngModel]="searchTerm()"
         (ngModelChange)="searchTerm.set($event)"
@@ -22,23 +24,28 @@
 
     @if (isAuthenticated()) {
       <div class="account-menu">
-        <button type="button" class="account-btn" (click)="toggleMenu()">Account</button>
+        <button type="button" class="account-btn" (click)="toggleMenu()">{{ 'nav.account' | translate }}</button>
 
         @if (menuOpen()) {
           <div class="account-dropdown">
             <a routerLink="/account" class="dropdown-item" (click)="closeMenu()">
-              <span class="material-symbols-outlined">person</span>
-              Account
+              <span class="material-symbols-outlined">favorite</span>
+              {{ 'nav.my_places' | translate }}
             </a>
+            <a routerLink="/account" class="dropdown-item" (click)="closeMenu()">
+              <span class="material-symbols-outlined">person</span>
+              {{ 'nav.account' | translate }}
+            </a>
+            <div class="dropdown-divider"></div>
             <button type="button" class="dropdown-item dropdown-item--danger" (click)="onLogout()">
               <span class="material-symbols-outlined">logout</span>
-              Log out
+              {{ 'nav.logout' | translate }}
             </button>
           </div>
         }
       </div>
     } @else {
-      <a routerLink="/login" class="account-btn">Login</a>
+      <a routerLink="/login" class="account-btn">{{ 'nav.login' | translate }}</a>
     }
   </div>
 </header>
