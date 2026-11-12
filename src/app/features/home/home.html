@@ -1,2 +1,9 @@
 <app-header />
-<app-weather-page [location]="defaultLocation" />
+
+@if (location(); as loc) {
+  <app-weather-page [location]="loc" />
+} @else {
+  <main class="home-loading">
+    <app-loading-spinner />
+  </main>
+}

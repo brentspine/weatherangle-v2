@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { toasts, ToastSeverity } from 'brents-toasts';
+import { Place } from '../../../core/models/auth.models';
 import { Location } from '../../../core/models/location.models';
 import { NearbySettlement } from '../../../core/models/overpass.models';
+import { AuthService } from '../../../core/services/auth.service';
 import { BackgroundService } from '../../../core/services/background-service';
+import { UserService } from '../../../core/services/user.service';
 import { WeatherService } from '../../../core/services/weather.service';
 import { deriveWeatherDescription } from '../../utils/weather-description.util';
 import { DayMonthPipe } from '../../pipes/day-month.pipe';
@@ -26,6 +30,8 @@ export class WeatherPage {
 
   private readonly weatherService = inject(WeatherService);
   private readonly backgroundService = inject(BackgroundService);
+  private readonly userService = inject(UserService);
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
   // Beobachtet lat und lon und lädt bei Änderungen via weatherService automatisch den neuen Forecast
@@ -50,8 +56,13 @@ export class WeatherPage {
     return today?.temperatureMax ?? today?.temperatureMean;
   });
 
-  protected readonly isStartPage = signal(false);
-  protected readonly isFavorite = signal(false);
+  private readonly place = computed<Place>(() => ({
+    lat: this.location().lat,
+    lon: this.location().lon,
+  }));
+
+  protected readonly isStartPage = computed(() => this.userService.isStartLocation(this.place()));
+  protected readonly isFavorite = computed(() => this.userService.isFavourite(this.place()));
 
   protected readonly placeName = computed(() => this.location().name ?? this.location().displayName);
 
@@ -99,11 +110,35 @@ export class WeatherPage {
   }
 
   protected onStartPageToggled(active: boolean): void {
-    this.isStartPage.set(active);
+    if (!this.authService.isAuthenticated()) {
+      this.showLoginRequiredToast();
+      return;
+    }
+    const request = active
+      ? this.userService.setStartLocation(this.place())
+      : this.userService.clearStartLocation();
+    request.subscribe({
+      error: (err) => console.error('Failed to update start location', err),
+    });
   }
 
   protected onFavoriteToggled(active: boolean): void {
-    this.isFavorite.set(active);
+    if (!this.authService.isAuthenticated()) {
+      this.showLoginRequiredToast();
+      return;
+    }
+    const request = active
+      ? this.userService.addFavourite(this.place())
+      : this.userService.removeFavourite(this.place());
+    request.subscribe({
+      error: (err) => console.error('Failed to update favourite', err),
+    });
+  }
+
+  private showLoginRequiredToast(): void {
+    toasts.showToast('Bitte melde dich an, um diese Funktion zu nutzen.', {
+      severity: ToastSeverity.WARNING,
+    });
   }
 
   protected onDaySelected(index: number): void {

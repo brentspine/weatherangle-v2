@@ -65,7 +65,12 @@ export class LocationService {
       return cached;
     }
 
-    let params = new HttpParams().set('format', 'json').set('q', searchParams.query);
+    let params = new HttpParams()
+      .set('format', 'json')
+      .set('q', searchParams.query)
+      // Damit wir auch bei übersetzter display_name (z.B. "Cologne" statt "Köln" bei
+      // englischem Accept-Language) noch gegen den lokalen Namen matchen können
+      .set('namedetails', '1');
     if (searchParams.limit) {
       params = params.set('limit', searchParams.limit.toString());
     }
@@ -79,8 +84,8 @@ export class LocationService {
         map((places) =>
           places
             .filter(isSettlement)
-            .map(toLocation)
-            .filter((location) => matchesQuery(location, searchParams.query)),
+            .filter((place) => matchesQuery(place, searchParams.query))
+            .map(toLocation),
         ),
         catchError((err) => {
           this.searchCache.delete(key);
@@ -110,7 +115,11 @@ function toLocation(place: NominatimPlace): Location {
 }
 
 // Wir versuchen irrelevantere Treffer trotz Nominatim Return rauszufiltern
-function matchesQuery(location: Location, query: string): boolean {
-  const primaryName = location.displayName.split(',')[0]?.trim().toLowerCase() ?? '';
-  return primaryName.includes(query.trim().toLowerCase());
+function matchesQuery(place: NominatimPlace, query: string): boolean {
+  const trimmedQuery = query.trim().toLowerCase();
+  const primaryName = place.display_name.split(',')[0]?.trim().toLowerCase() ?? '';
+  // display_name wird je nach Accept-Language übersetzt (z.B. "Köln" -> "Cologne"),
+  // namedetails.name bleibt der lokale Name, daher zusätzlich dagegen matchen
+  const localName = place.namedetails?.['name']?.trim().toLowerCase() ?? '';
+  return primaryName.includes(trimmedQuery) || localName.includes(trimmedQuery);
 }

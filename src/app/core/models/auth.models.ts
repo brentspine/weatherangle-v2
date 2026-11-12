@@ -32,10 +32,17 @@ export interface RefreshRequest {
   refreshToken: string;
 }
 
+export interface Place {
+  lat: number;
+  lon: number;
+}
+
 export interface CurrentUser {
   id: string;
   username: string;
   email: string;
+  startLocation: Place | null;
+  favourites: Place[];
 }
 
 export interface PasswordResetInitiateRequest {

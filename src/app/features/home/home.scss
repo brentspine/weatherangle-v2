@@ -1,0 +1,5 @@
+.home-loading {
+  min-height: calc(100svh - var(--header-height));
+  display: grid;
+  place-items: center;
+}

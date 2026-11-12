@@ -10,6 +10,9 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { AuthService } from './core/services/auth.service';
+import { configureAppToasts } from './shared/utils/app-toasts';
+
+configureAppToasts();
 
 export const appConfig: ApplicationConfig = {
   providers: [

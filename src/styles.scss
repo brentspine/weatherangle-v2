@@ -128,6 +128,10 @@ body {
   border-color: rgba(255, 255, 255, 0.08);
 }
 
+.bt-toasts-root .bt-toast {
+  border-radius: 0.6rem;
+}
+
 // Sekundäres Box Design aktiviert durch data-box-style="alt" auf body
 body[data-box-style='alt'] {
   --color-box: var(--color-box-alt);

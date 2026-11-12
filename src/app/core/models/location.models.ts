@@ -11,6 +11,9 @@ export interface NominatimPlace {
   type?: string;
   class?: string;
   importance?: number;
+  // Nur vorhanden wenn namedetails=1 angefragt wird; enthält u.a. den lokalen Namen
+  // unabhängig von der (per Accept-Language übersetzten) display_name
+  namedetails?: Record<string, string>;
 }
 
 // Domain-level representation of a location
