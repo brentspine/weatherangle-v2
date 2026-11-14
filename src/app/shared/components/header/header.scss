@@ -64,6 +64,39 @@
   pointer-events: none;
 }
 
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.lang-sep {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.72rem;
+  user-select: none;
+}
+
+.lang-btn {
+  border: none;
+  background: none;
+  padding: 0 0.1rem;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--color-text-main);
+  }
+
+  &--active {
+    color: var(--color-text-main);
+  }
+}
+
 .account-menu {
   position: relative;
   display: flex;

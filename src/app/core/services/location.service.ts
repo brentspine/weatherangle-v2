@@ -1,12 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, map, shareReplay, throwError } from 'rxjs';
+import { Observable, catchError, map, of, shareReplay, tap, throwError } from 'rxjs';
 import { Location, LocationSearchParams, NominatimPlace } from '../models/location.models';
+import { GeocodePersistentCache } from '../../shared/utils/geocode-persistent-cache';
 import { TtlCache } from '../../shared/utils/ttl-cache';
 
 // Nominatim wird direkt vom Client aufgerufen, nicht über environment.apiUrl
 const NOMINATIM_BASE_URL = 'https://nominatim.openstreetmap.org';
-const CACHE_TTL_MS = 10 * 60 * 1000;
+const SESSION_CACHE_TTL_MS = 10 * 60 * 1000;
+const PERSISTENT_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const DEFAULT_REVERSE_ZOOM = 12;
 
 @Injectable({
@@ -15,9 +17,15 @@ const DEFAULT_REVERSE_ZOOM = 12;
 export class LocationService {
   private readonly http = inject(HttpClient);
 
-  // Cache speichert Observables statt Werte, sodass parallele Requests dedupliziert werden
-  private readonly reverseCache = new TtlCache<string, Observable<Location>>(CACHE_TTL_MS);
-  private readonly searchCache = new TtlCache<string, Observable<Location[]>>(CACHE_TTL_MS);
+  // Session cache stores Observables so concurrent requests are deduplicated
+  private readonly reverseCache = new TtlCache<string, Observable<Location>>(SESSION_CACHE_TTL_MS);
+  private readonly searchCache = new TtlCache<string, Observable<Location[]>>(SESSION_CACHE_TTL_MS);
+  // Persistent cache survives page reloads; uses spatial proximity instead of exact key matching
+  private readonly persistentCache = new GeocodePersistentCache(PERSISTENT_CACHE_TTL_MS);
+
+  reverseGeocodeFromCache(lat: number, lon: number): Location | null {
+    return this.persistentCache.get(lat, lon) ?? null;
+  }
 
   reverseGeocode(
     lat: number,
@@ -27,8 +35,13 @@ export class LocationService {
     const key = `${lat.toFixed(9)},${lon.toFixed(9)}|${zoom}`;
 
     const cached = this.reverseCache.get(key);
-    if (cached) {
-      return cached;
+    if (cached) return cached;
+
+    const persisted = this.persistentCache.get(lat, lon);
+    if (persisted) {
+      const hit$ = of(persisted).pipe(shareReplay({ bufferSize: 1, refCount: false }));
+      this.reverseCache.set(key, hit$);
+      return hit$;
     }
 
     const params = new HttpParams()
@@ -40,7 +53,11 @@ export class LocationService {
     const request$ = this.http
       .get<NominatimPlace>(`${NOMINATIM_BASE_URL}/reverse`, { params })
       .pipe(
-        map(toLocation),
+        map((response) => {
+          if (response.error) throw new Error('Nominatim could not geocode this location');
+          return toLocation(response);
+        }),
+        tap((location) => this.persistentCache.set(lat, lon, location)),
         catchError((err) => {
           this.reverseCache.delete(key);
           return throwError(() => err);
@@ -110,7 +127,7 @@ function toLocation(place: NominatimPlace): Location {
     lon: parseFloat(place.lon),
     displayName: place.display_name,
     name: place.name,
-    boundingBox: place.boundingbox.map(Number) as [number, number, number, number],
+    boundingBox: place.boundingbox?.map(Number) as [number, number, number, number] | undefined,
   };
 }
 

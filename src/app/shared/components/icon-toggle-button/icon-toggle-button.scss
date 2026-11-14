@@ -1,3 +1,7 @@
+:host {
+  display: contents;
+}
+
 .icon-toggle {
   display: inline-flex;
   align-items: center;
@@ -11,7 +15,7 @@
   line-height: 1;
 
   .material-symbols-outlined {
-    font-size: 1.35rem;
+    font-size: var(--icon-toggle-size, 1.35rem);
   }
 
   &.active .material-symbols-outlined {

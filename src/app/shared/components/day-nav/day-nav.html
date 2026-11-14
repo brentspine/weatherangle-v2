@@ -19,10 +19,10 @@
   </div>
 
   <div class="chevron-cluster">
-    <button type="button" class="chevron" [disabled]="!canGoPrev()" (click)="goPrev()" aria-label="Previous days">
+    <button type="button" class="chevron" [disabled]="!canGoPrev()" (click)="goPrev()" [attr.aria-label]="i18n.t('dayNav.prevDays')">
       <span class="material-symbols-outlined">chevron_left</span>
     </button>
-    <button type="button" class="chevron" [disabled]="!canGoNext()" (click)="goNext()" aria-label="More days">
+    <button type="button" class="chevron" [disabled]="!canGoNext()" (click)="goNext()" [attr.aria-label]="i18n.t('dayNav.moreDays')">
       <span class="material-symbols-outlined">chevron_right</span>
     </button>
   </div>

@@ -8,7 +8,7 @@
       <input
         type="text"
         class="search-input"
-        placeholder="Search..."
+        [placeholder]="i18n.t('header.search.placeholder')"
         autocomplete="off"
         [ngModel]="searchTerm()"
         (ngModelChange)="searchTerm.set($event)"
@@ -20,25 +20,43 @@
       <span class="material-symbols-outlined search-icon">search</span>
     </div>
 
+    <div class="lang-switcher">
+      <button
+        type="button"
+        class="lang-btn"
+        [class.lang-btn--active]="i18n.lang() === 'en'"
+        (click)="i18n.setLanguage('en')"
+        aria-label="Switch to English"
+      >EN</button>
+      <span class="lang-sep">|</span>
+      <button
+        type="button"
+        class="lang-btn"
+        [class.lang-btn--active]="i18n.lang() === 'de'"
+        (click)="i18n.setLanguage('de')"
+        aria-label="Zu Deutsch wechseln"
+      >DE</button>
+    </div>
+
     @if (isAuthenticated()) {
       <div class="account-menu">
-        <button type="button" class="account-btn" (click)="toggleMenu()">Account</button>
+        <button type="button" class="account-btn" (click)="toggleMenu()">{{ i18n.t('header.account') }}</button>
 
         @if (menuOpen()) {
           <div class="account-dropdown">
             <a routerLink="/account" class="dropdown-item" (click)="closeMenu()">
               <span class="material-symbols-outlined">person</span>
-              Account
+              {{ i18n.t('header.account') }}
             </a>
             <button type="button" class="dropdown-item dropdown-item--danger" (click)="onLogout()">
               <span class="material-symbols-outlined">logout</span>
-              Log out
+              {{ i18n.t('header.logout') }}
             </button>
           </div>
         }
       </div>
     } @else {
-      <a routerLink="/login" class="account-btn">Login</a>
+      <a routerLink="/login" class="account-btn">{{ i18n.t('header.login') }}</a>
     }
   </div>
 </header>

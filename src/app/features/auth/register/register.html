@@ -1,31 +1,31 @@
-<app-auth-layout title="Create your account">
+<app-auth-layout [title]="i18n.t('register.title')">
   @if (!verificationToken()) {
-    <app-verification-stepper [texts]="texts" [endpoints]="endpoints" (verified)="onVerified($event)" />
+    <app-verification-stepper [texts]="texts()" [endpoints]="endpoints" (verified)="onVerified($event)" />
   } @else {
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <app-form-error [message]="errorMessage()" />
 
       <div class="mb-3 text-start">
-        <label for="register-username-input" class="form-label">Username</label>
+        <label for="register-username-input" class="form-label">{{ i18n.t('register.username') }}</label>
         <input
           id="register-username-input"
           type="text"
           class="form-control"
           formControlName="username"
           autocomplete="username"
-          placeholder="Username"
+          [placeholder]="i18n.t('register.username')"
         >
       </div>
 
       <div class="mb-3 text-start">
-        <label for="register-password-input" class="form-label">Password</label>
+        <label for="register-password-input" class="form-label">{{ i18n.t('register.password') }}</label>
         <input
           id="register-password-input"
           type="password"
           class="form-control"
           formControlName="password"
           autocomplete="new-password"
-          placeholder="Password"
+          [placeholder]="i18n.t('register.password')"
         >
       </div>
 
@@ -33,12 +33,12 @@
         @if (loading()) {
           <app-loading-spinner />
         }
-        Create account
+        {{ i18n.t('register.submit') }}
       </button>
     </form>
   }
 
   <p class="create-account">
-    Already have an account? <a routerLink="/login">Sign in</a>
+    {{ i18n.t('register.alreadyHaveAccount') }} <a routerLink="/login">{{ i18n.t('register.signIn') }}</a>
   </p>
 </app-auth-layout>

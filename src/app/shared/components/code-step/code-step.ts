@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { I18nService } from '../../../core/services/i18n.service';
 import { FormError } from '../form-error/form-error';
 import { LoadingSpinner } from '../loading-spinner/loading-spinner';
 
@@ -13,9 +14,12 @@ import { LoadingSpinner } from '../loading-spinner/loading-spinner';
 export class CodeStep {
   readonly subtitle = input('');
   readonly email = input.required<string>();
-  readonly submitLabel = input('Verify');
+  readonly submitLabel = input('');
+  readonly backLabel = input('');
   readonly loading = input(false);
   readonly errorMessage = input<string | null>(null);
+
+  protected readonly i18n = inject(I18nService);
 
   readonly submitted = output<string>();
   readonly resend = output<void>();

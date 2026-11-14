@@ -7,21 +7,21 @@
     />
 
     @if (selectedDaily(); as day) {
-      <app-weather-card variant="outside" [title]="(day.time | dayMonth) + ' im Überblick'">
+      <app-weather-card variant="outside" [title]="(day.time | dayMonth) + ' ' + i18n.t('weather.overview')">
         <app-metric-grid [metrics]="metricsCardA()" />
       </app-weather-card>
 
-      <app-weather-card variant="outside" [title]="(day.time | dayMonth) + ' im Überblick'">
+      <app-weather-card variant="outside" [title]="(day.time | dayMonth) + ' ' + i18n.t('weather.overview')">
         <app-metric-grid [metrics]="metricsCardB()" />
       </app-weather-card>
     }
 
     <div class="info-warning-row">
-      <app-weather-card variant="colored-header" accent="blue" icon="info" title="Aktuelle Informationen">
-        <p class="placeholder-text">Noch keine Informationen verfügbar.</p>
+      <app-weather-card variant="colored-header" accent="blue" icon="info" [title]="i18n.t('weather.currentInfo')">
+        <p class="placeholder-text">{{ i18n.t('weather.noInfo') }}</p>
       </app-weather-card>
-      <app-weather-card variant="colored-header" accent="red" icon="warning" title="Aktuelle Warnungen">
-        <p class="placeholder-text">Keine aktuellen Warnungen.</p>
+      <app-weather-card variant="colored-header" accent="red" icon="warning" [title]="i18n.t('weather.currentWarnings')">
+        <p class="placeholder-text">{{ i18n.t('weather.noWarnings') }}</p>
       </app-weather-card>
     </div>
   </section>
@@ -29,19 +29,19 @@
   <section class="right-column">
     <p class="temperature">{{ rightTemperature() | metricValue: 'celsius' }}</p>
     <h1 class="place-name">{{ placeName() }}</h1>
-    <p class="lat-lon">Lat: {{ location().lat }}&nbsp;&nbsp;&nbsp;&nbsp;Lon: {{ location().lon }}</p>
+    <p class="lat-lon">{{ i18n.t('weather.lat') }}: {{ location().lat }}&nbsp;&nbsp;&nbsp;&nbsp;{{ i18n.t('weather.lon') }}: {{ location().lon }}</p>
 
     <div class="toggle-row">
       <app-icon-toggle-button
         icon="star"
         [active]="isStartPage()"
-        ariaLabel="Als Startseite festlegen"
+        [ariaLabel]="i18n.t('weather.setStartPage')"
         (toggled)="onStartPageToggled($event)"
       />
       <app-icon-toggle-button
         icon="favorite"
         [active]="isFavorite()"
-        ariaLabel="Als Favorit markieren"
+        [ariaLabel]="i18n.t('weather.setFavorite')"
         (toggled)="onFavoriteToggled($event)"
       />
     </div>

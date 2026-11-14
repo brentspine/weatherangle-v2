@@ -1,28 +1,28 @@
-<app-auth-layout title="Welcome back" subtitle="Sign in to have the perfect experience.">
+<app-auth-layout [title]="i18n.t('login.title')" [subtitle]="i18n.t('login.subtitle')">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <app-form-error [message]="errorMessage()" />
 
     <div class="mb-3 text-start">
-      <label for="username-input" class="form-label">Username</label>
+      <label for="username-input" class="form-label">{{ i18n.t('login.username') }}</label>
       <input
         id="username-input"
         type="text"
         class="form-control"
         formControlName="username"
         autocomplete="username"
-        placeholder="Username"
+        [placeholder]="i18n.t('login.username')"
       >
     </div>
 
     <div class="mb-3 text-start">
-      <label for="password-input" class="form-label">Password</label>
+      <label for="password-input" class="form-label">{{ i18n.t('login.password') }}</label>
       <input
         id="password-input"
         type="password"
         class="form-control"
         formControlName="password"
         autocomplete="current-password"
-        placeholder="Password"
+        [placeholder]="i18n.t('login.password')"
       >
     </div>
 
@@ -30,14 +30,14 @@
       @if (loading()) {
         <app-loading-spinner />
       }
-      Login
+      {{ i18n.t('login.submit') }}
     </button>
 
     <p class="create-account">
-      <a routerLink="/password-reset">Forgot your password?</a>
+      <a routerLink="/password-reset">{{ i18n.t('login.forgotPassword') }}</a>
     </p>
     <p class="create-account">
-      New here? <a routerLink="/register">Create account</a>
+      {{ i18n.t('login.newHere') }} <a routerLink="/register">{{ i18n.t('login.createAccount') }}</a>
     </p>
   </form>
 </app-auth-layout>

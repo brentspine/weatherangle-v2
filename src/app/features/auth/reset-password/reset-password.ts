@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -10,6 +10,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { catchError, map, of, throwError } from 'rxjs';
 import { AuthApiService } from '../../../core/services/auth-api.service';
+import { I18nService } from '../../../core/services/i18n.service';
 import { AuthLayout } from '../../../shared/components/auth-layout/auth-layout';
 import { FormError } from '../../../shared/components/form-error/form-error';
 import { LoadingSpinner } from '../../../shared/components/loading-spinner/loading-spinner';
@@ -38,13 +39,14 @@ export class ResetPassword {
   private readonly authApi = inject(AuthApiService);
   private readonly router = inject(Router);
 
+  protected readonly i18n = inject(I18nService);
   protected readonly resetToken = signal<string | null>(null);
   protected readonly loading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
 
-  protected readonly texts: VerificationStepperTexts = {
-    emailSubtitle: "Enter your account's email and we'll send you a code.",
-  };
+  protected readonly texts = computed<VerificationStepperTexts>(() => ({
+    emailSubtitle: this.i18n.t('resetPassword.emailSubtitle'),
+  }));
 
   protected readonly endpoints: VerificationEndpoints = {
     // 404 wird als Erfolg behandelt, um E-Mail-Enumeration zu verhindern
@@ -96,7 +98,7 @@ export class ResetPassword {
       error: (err) => {
         this.loading.set(false);
         this.errorMessage.set(
-          extractApiErrorMessage(err, 'Your reset code expired. Please start over.'),
+          extractApiErrorMessage(err, this.i18n.t('error.resetCodeExpired')),
         );
         // Startet EmailStep neu
         this.resetToken.set(null);

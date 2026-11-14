@@ -6,7 +6,7 @@
   <app-form-error [message]="errorMessage()" />
 
   <div class="mb-3 text-start">
-    <label for="email-step-input" class="form-label">Email</label>
+    <label for="email-step-input" class="form-label">{{ i18n.t('emailStep.label') }}</label>
     <input
       id="email-step-input"
       type="email"
@@ -16,7 +16,7 @@
       placeholder="example@weatherangle.de"
     >
     @if (emailControl.invalid && emailControl.touched) {
-      <div class="form-text text-danger">Enter a valid email address.</div>
+      <div class="form-text text-danger">{{ i18n.t('emailStep.invalidEmail') }}</div>
     }
   </div>
 
@@ -24,6 +24,6 @@
     @if (loading()) {
       <app-loading-spinner />
     }
-    {{ submitLabel() }}
+    {{ submitLabel() || i18n.t('emailStep.continue') }}
   </button>
 </form>

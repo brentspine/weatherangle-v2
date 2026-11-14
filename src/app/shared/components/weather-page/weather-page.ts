@@ -7,6 +7,7 @@ import { Location } from '../../../core/models/location.models';
 import { NearbySettlement } from '../../../core/models/overpass.models';
 import { AuthService } from '../../../core/services/auth.service';
 import { BackgroundService } from '../../../core/services/background-service';
+import { I18nService } from '../../../core/services/i18n.service';
 import { UserService } from '../../../core/services/user.service';
 import { WeatherService } from '../../../core/services/weather.service';
 import { deriveWeatherDescription } from '../../utils/weather-description.util';
@@ -33,6 +34,8 @@ export class WeatherPage {
   private readonly userService = inject(UserService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+
+  protected readonly i18n = inject(I18nService);
 
   // Beobachtet lat und lon und lädt bei Änderungen via weatherService automatisch den neuen Forecast
   private readonly forecastResource = rxResource({
@@ -72,11 +75,21 @@ export class WeatherPage {
       return [];
     }
     return [
-      { icon: 'wb_twilight', value: day.sunrise, unit: 'time', label: 'Sonnenaufgang' },
-      { icon: 'bedtime', value: day.sunset, unit: 'time', label: 'Sonnenuntergang' },
-      { icon: 'light_mode', value: day.daylightDuration, unit: 'durationSeconds', label: 'Tageslicht' },
-      { icon: 'wb_sunny', value: day.sunshineDuration, unit: 'durationSeconds', label: 'Sonnenschein' },
-      { icon: 'flare', value: day.uvIndexMax, unit: 'index', label: 'UV-Index' },
+      { icon: 'wb_twilight', value: day.sunrise, unit: 'time', label: this.i18n.t('metric.sunrise') },
+      { icon: 'bedtime', value: day.sunset, unit: 'time', label: this.i18n.t('metric.sunset') },
+      {
+        icon: 'light_mode',
+        value: day.daylightDuration,
+        unit: 'durationSeconds',
+        label: this.i18n.t('metric.daylight'),
+      },
+      {
+        icon: 'wb_sunny',
+        value: day.sunshineDuration,
+        unit: 'durationSeconds',
+        label: this.i18n.t('metric.sunshine'),
+      },
+      { icon: 'flare', value: day.uvIndexMax, unit: 'index', label: this.i18n.t('metric.uvIndex') },
     ];
   });
 
@@ -86,16 +99,26 @@ export class WeatherPage {
       return [];
     }
     return [
-      { icon: 'water_drop', value: day.precipitationSum, unit: 'mm', label: 'Niederschlag' },
+      {
+        icon: 'water_drop',
+        value: day.precipitationSum,
+        unit: 'mm',
+        label: this.i18n.t('metric.precipitation'),
+      },
       {
         icon: 'rainy',
         value: day.precipitationProbabilityMax,
         unit: 'percent',
-        label: 'Niederschlagswahrscheinlichkeit',
+        label: this.i18n.t('metric.precipitationProbability'),
       },
-      { icon: 'air', value: day.windSpeedMax, unit: 'kmh', label: 'Windgeschwindigkeit' },
-      { icon: 'thunderstorm', value: day.windGustsMax, unit: 'kmh', label: 'Windböen' },
-      { icon: 'thermostat', value: day.apparentTemperatureMax, unit: 'celsius', label: 'Gefühlt max.' },
+      { icon: 'air', value: day.windSpeedMax, unit: 'kmh', label: this.i18n.t('metric.windSpeed') },
+      { icon: 'thunderstorm', value: day.windGustsMax, unit: 'kmh', label: this.i18n.t('metric.windGusts') },
+      {
+        icon: 'thermostat',
+        value: day.apparentTemperatureMax,
+        unit: 'celsius',
+        label: this.i18n.t('metric.feelsLikeMax'),
+      },
     ];
   });
 
@@ -136,7 +159,7 @@ export class WeatherPage {
   }
 
   private showLoginRequiredToast(): void {
-    toasts.showToast('Bitte melde dich an, um diese Funktion zu nutzen.', {
+    toasts.showToast(this.i18n.t('weather.loginRequired'), {
       severity: ToastSeverity.WARNING,
     });
   }

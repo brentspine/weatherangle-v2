@@ -14,6 +14,8 @@ export interface NominatimPlace {
   // Nur vorhanden wenn namedetails=1 angefragt wird; enthält u.a. den lokalen Namen
   // unabhängig von der (per Accept-Language übersetzten) display_name
   namedetails?: Record<string, string>;
+  // Nominatim returns HTTP 200 with this field instead of an error status when geocoding fails
+  error?: string | { code: number; message: string };
 }
 
 // Domain-level representation of a location

@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
 import { Observable } from 'rxjs';
+import { I18nService } from '../../../core/services/i18n.service';
 import { extractApiErrorMessage } from '../../utils/api-error.util';
 import { CodeStep } from '../code-step/code-step';
 import { EmailStep } from '../email-step/email-step';
@@ -33,6 +34,8 @@ export class VerificationStepper {
 
   readonly verified = output<{ email: string; token: string }>();
 
+  private readonly i18n = inject(I18nService);
+
   protected readonly step = signal<'email' | 'code'>('email');
   protected readonly email = signal('');
   protected readonly loading = signal(false);
@@ -56,7 +59,7 @@ export class VerificationStepper {
         },
         error: (err) => {
           this.loading.set(false);
-          this.errorMessage.set(extractApiErrorMessage(err, 'Invalid or expired code.'));
+          this.errorMessage.set(extractApiErrorMessage(err, this.i18n.t('error.invalidOrExpiredCode')));
         },
       });
   }

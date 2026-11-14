@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthApiService } from '../../../core/services/auth-api.service';
+import { I18nService } from '../../../core/services/i18n.service';
 import { AuthLayout } from '../../../shared/components/auth-layout/auth-layout';
 import { FormError } from '../../../shared/components/form-error/form-error';
 import { LoadingSpinner } from '../../../shared/components/loading-spinner/loading-spinner';
@@ -25,13 +26,14 @@ export class Register {
   private readonly authApi = inject(AuthApiService);
   private readonly router = inject(Router);
 
+  protected readonly i18n = inject(I18nService);
   protected readonly verificationToken = signal<string | null>(null);
   protected readonly loading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
 
-  protected readonly texts: VerificationStepperTexts = {
-    emailSubtitle: 'Enter your email to get started.',
-  };
+  protected readonly texts = computed<VerificationStepperTexts>(() => ({
+    emailSubtitle: this.i18n.t('register.emailSubtitle'),
+  }));
 
   protected readonly endpoints: VerificationEndpoints = {
     requestCode: (email) => this.authApi.registerRequestEmail(email),
@@ -71,8 +73,8 @@ export class Register {
         this.loading.set(false);
         const fallback =
           err instanceof HttpErrorResponse && err.status === 409
-            ? 'That username is already taken.'
-            : 'Could not create your account.';
+            ? this.i18n.t('error.usernameTaken')
+            : this.i18n.t('error.couldNotCreateAccount');
         this.errorMessage.set(extractApiErrorMessage(err, fallback));
       },
     });

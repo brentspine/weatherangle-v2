@@ -1,10 +1,192 @@
 <app-header />
 
 <main class="account-page">
-  <section class="account-box">
-    <h1 class="welcome-header">Welcome {{ currentUser()?.username}}</h1>
-    <p class="welcome-text">Account settings are coming soon.</p>
+  <div class="account-content">
+    <h1 class="welcome-header">{{ i18n.t('account.welcome') }}, {{ currentUser()?.username }}</h1>
 
-    <button type="button" class="btn btn-primary w-100" (click)="onLogout()">Log out</button>
-  </section>
+    <section class="account-section">
+      <h2 class="section-title">{{ i18n.t('account.sectionProfile') }}</h2>
+      <div class="info-rows">
+        <div class="info-row">
+          <span class="info-label">{{ i18n.t('account.username') }}</span>
+          <span class="info-value">{{ currentUser()?.username }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">{{ i18n.t('account.email') }}</span>
+          <span class="info-value">{{ currentUser()?.email }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="account-section">
+      <h2 class="section-title">{{ i18n.t('account.sectionSecurity') }}</h2>
+
+      @if (passwordStep() === 'idle') {
+        <p class="section-description">{{ i18n.t('account.changePasswordDescription') }}</p>
+        <app-form-error [message]="changePasswordError()" />
+        <button
+          type="button"
+          class="btn btn-secondary w-100"
+          [disabled]="changePasswordLoading()"
+          (click)="onSendCode()"
+        >
+          @if (changePasswordLoading()) {
+            <app-loading-spinner />
+          }
+          {{ i18n.t('account.sendCode') }}
+        </button>
+      } @else if (passwordStep() === 'code-sent') {
+        <app-code-step
+          [email]="currentUser()!.email"
+          [loading]="changePasswordLoading()"
+          [errorMessage]="changePasswordError()"
+          [backLabel]="i18n.t('account.cancel')"
+          (submitted)="onCodeSubmit($event)"
+          (resend)="onSendCode()"
+          (back)="onCancelPasswordChange()"
+        />
+      } @else if (passwordStep() === 'new-password') {
+        <app-form-error [message]="changePasswordError()" />
+        <form [formGroup]="changePasswordForm" (ngSubmit)="onPasswordSubmit()">
+          <div class="mb-3 text-start">
+            <label for="change-new-password" class="form-label">{{ i18n.t('account.newPassword') }}</label>
+            <input
+              id="change-new-password"
+              type="password"
+              class="form-control"
+              formControlName="newPassword"
+              autocomplete="new-password"
+              [placeholder]="i18n.t('account.newPassword')"
+            >
+          </div>
+          <div class="mb-3 text-start">
+            <label for="change-confirm-password" class="form-label">{{ i18n.t('account.confirmPassword') }}</label>
+            <input
+              id="change-confirm-password"
+              type="password"
+              class="form-control"
+              formControlName="confirmPassword"
+              autocomplete="new-password"
+              [placeholder]="i18n.t('account.confirmPassword')"
+            >
+            @if (changePasswordForm.errors?.['passwordsMismatch'] && changePasswordForm.get('confirmPassword')?.touched) {
+              <div class="form-text text-danger">{{ i18n.t('account.passwordsMismatch') }}</div>
+            }
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <button
+              type="button"
+              class="btn btn-link p-0"
+              (click)="onCancelPasswordChange()"
+            >{{ i18n.t('account.cancel') }}</button>
+            <button
+              type="submit"
+              class="btn btn-primary flex-grow-1"
+              [disabled]="changePasswordLoading()"
+            >
+              @if (changePasswordLoading()) {
+                <app-loading-spinner />
+              }
+              {{ i18n.t('account.savePassword') }}
+            </button>
+          </div>
+        </form>
+      }
+    </section>
+
+    <section class="account-section">
+      <h2 class="section-title">{{ i18n.t('account.sectionFavourites') }}</h2>
+
+      @if (!displayedSavedPlaces().length) {
+        <p class="section-empty">{{ i18n.t('account.noFavourites') }}</p>
+        <p class="suggestions-title">{{ i18n.t('account.suggestionsTitle') }}</p>
+        <ul class="favourites-list">
+          @for (place of suggestedPlaces(); track favouriteKey(place)) {
+            <li class="favourite-item">
+              <a
+                class="favourite-name"
+                [routerLink]="['/places', '@' + place.lat + ',' + place.lon]"
+              >{{ favouriteName(place) }}</a>
+              <app-icon-toggle-button
+                icon="star"
+                [active]="isStartPage(place)"
+                [ariaLabel]="i18n.t('weather.setStartPage')"
+                (toggled)="onToggleStar(place, $event)"
+              />
+              <app-icon-toggle-button
+                icon="favorite"
+                [active]="isFavouritePlace(place)"
+                [ariaLabel]="i18n.t('weather.setFavorite')"
+                (toggled)="onToggleFavourite(place, $event)"
+              />
+            </li>
+          }
+        </ul>
+        <p class="suggestions-action">
+          <button type="button" (click)="onRefreshSuggestions()">{{ i18n.t('account.refreshSuggestions') }}</button>
+        </p>
+      } @else {
+        <ul class="favourites-list">
+          @for (place of displayedSavedPlaces(); track favouriteKey(place)) {
+            <li class="favourite-item">
+              <a
+                class="favourite-name"
+                [routerLink]="['/places', '@' + place.lat + ',' + place.lon]"
+              >{{ favouriteName(place) }}</a>
+              <app-icon-toggle-button
+                icon="star"
+                [active]="isStartPage(place)"
+                [ariaLabel]="i18n.t('weather.setStartPage')"
+                (toggled)="onToggleStar(place, $event)"
+              />
+              <app-icon-toggle-button
+                icon="favorite"
+                [active]="isFavouritePlace(place)"
+                [ariaLabel]="i18n.t('weather.setFavorite')"
+                (toggled)="onToggleFavourite(place, $event)"
+              />
+            </li>
+          }
+        </ul>
+
+        @if (showSuggestions()) {
+          <p class="suggestions-title">{{ i18n.t('account.suggestionsTitle') }}</p>
+          <ul class="favourites-list">
+            @for (place of suggestedPlaces(); track favouriteKey(place)) {
+              <li class="favourite-item">
+                <a
+                  class="favourite-name"
+                  [routerLink]="['/places', '@' + place.lat + ',' + place.lon]"
+                >{{ favouriteName(place) }}</a>
+                <app-icon-toggle-button
+                  icon="star"
+                  [active]="isStartPage(place)"
+                  [ariaLabel]="i18n.t('weather.setStartPage')"
+                  (toggled)="onToggleStar(place, $event)"
+                />
+                <app-icon-toggle-button
+                  icon="favorite"
+                  [active]="isFavouritePlace(place)"
+                  [ariaLabel]="i18n.t('weather.setFavorite')"
+                  (toggled)="onToggleFavourite(place, $event)"
+                />
+              </li>
+            }
+          </ul>
+        }
+
+        <p class="suggestions-action">
+          <button type="button" (click)="onToggleSuggestions()">
+            {{ showSuggestions() ? i18n.t('account.refreshSuggestions') : i18n.t('account.showSuggestions') }}
+          </button>
+        </p>
+      }
+    </section>
+
+    <section class="account-section-logout">
+      <button type="button" class="btn btn-danger w-100" (click)="onLogout()">
+        {{ i18n.t('account.logout') }}
+      </button>
+    </section>
+  </div>
 </main>

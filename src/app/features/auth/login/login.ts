@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { I18nService } from '../../../core/services/i18n.service';
 import { AuthLayout } from '../../../shared/components/auth-layout/auth-layout';
 import { FormError } from '../../../shared/components/form-error/form-error';
 import { LoadingSpinner } from '../../../shared/components/loading-spinner/loading-spinner';
@@ -19,6 +20,7 @@ export class Login {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
+  protected readonly i18n = inject(I18nService);
   protected readonly loading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
 
@@ -44,7 +46,9 @@ export class Login {
       },
       error: (err) => {
         this.loading.set(false);
-        this.errorMessage.set(extractApiErrorMessage(err, 'Invalid username or password.'));
+        this.errorMessage.set(
+          extractApiErrorMessage(err, this.i18n.t('error.invalidUsernameOrPassword')),
+        );
       },
     });
   }

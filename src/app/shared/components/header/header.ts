@@ -20,13 +20,12 @@ import {
 } from 'rxjs';
 import { Location } from '../../../core/models/location.models';
 import { AuthService } from '../../../core/services/auth.service';
+import { I18nService } from '../../../core/services/i18n.service';
 import { LocationService } from '../../../core/services/location.service';
 import { SurpriseLocationService } from '../../../core/services/surprise-location.service';
-import { NgOptimizedImage } from '@angular/common';
-
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, FormsModule, NgbTypeahead, NgOptimizedImage],
+  imports: [RouterLink, FormsModule, NgbTypeahead],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.html',
   styleUrl: './header.scss',
@@ -38,9 +37,16 @@ export class Header {
   private readonly router = inject(Router);
   private readonly elementRef = inject(ElementRef<HTMLElement>);
 
+  protected readonly i18n = inject(I18nService);
   protected readonly isAuthenticated = this.authService.isAuthenticated;
   protected readonly menuOpen = signal(false);
   protected readonly searchTerm = signal('');
+
+  private readonly surpriseItem = (): Location => ({
+    lat: 0,
+    lon: 0,
+    displayName: this.i18n.t('header.surpriseMe'),
+  });
 
   protected readonly search: OperatorFunction<string, readonly Location[]> = (text$) =>
     text$.pipe(
@@ -49,26 +55,14 @@ export class Header {
       switchMap((term) => {
         const query = term.trim();
         if (query.length === 0) {
-          // Show "Surprise me" when search is focused/empty
-          return of([
-            {
-              lat: 0,
-              lon: 0,
-              displayName: 'Surprise me',
-            } as Location,
-          ]);
+          return of([this.surpriseItem()]);
         }
         if (query.length < 2) {
           return of([]);
         }
-        // Only add "Surprise me" when no results are found
         return this.locationService.search({ query }).pipe(
-          map((locations) =>
-            locations.length === 0
-              ? [{ lat: 0, lon: 0, displayName: 'Surprise me' } as Location]
-              : locations,
-          ),
-          catchError(() => of([{ lat: 0, lon: 0, displayName: 'Surprise me' } as Location])),
+          map((locations) => (locations.length === 0 ? [this.surpriseItem()] : locations)),
+          catchError(() => of([this.surpriseItem()])),
         );
       }),
     );
@@ -80,13 +74,12 @@ export class Header {
     event.preventDefault();
     this.searchTerm.set('');
 
-    if (event.item.displayName === 'Surprise me') {
+    if (event.item.lat === 0 && event.item.lon === 0) {
       const { lat, lon } = this.surpriseLocationService.getRandomLocation();
       this.router.navigate(['/places', `@${lat},${lon}`]);
       return;
     }
 
-    // Wir geben den Locationamen direkt weiter, damit wir nicht nochmal laden müssen
     this.router.navigate(['/places', `@${event.item.lat},${event.item.lon}`], {
       state: { location: event.item },
     });

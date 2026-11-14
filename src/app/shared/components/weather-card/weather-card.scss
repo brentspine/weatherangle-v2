@@ -14,8 +14,8 @@
   border: none;
   border-radius: clamp(1rem, 2vw, 1.35rem);
   // box-shadow: 0 1.4rem 3.5rem var(--color-box-shadow);
-  // backdrop-filter: blur(20px);
-  // -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .card-body {

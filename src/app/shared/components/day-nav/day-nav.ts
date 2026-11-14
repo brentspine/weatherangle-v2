@@ -13,6 +13,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { DailyWeather } from '../../../core/models/weather.models';
+import { I18nService } from '../../../core/services/i18n.service';
 import { DayMonthPipe } from '../../pipes/day-month.pipe';
 import { WeatherIconUrlPipe } from '../../pipes/weather-icon-url.pipe';
 import { WeekdayAbbrevPipe } from '../../pipes/weekday-abbrev.pipe';
@@ -31,6 +32,8 @@ const DAY_STEP = 3;
 export class DayNav {
   readonly days = input<DailyWeather[]>([]);
   readonly selectedIndex = input(0);
+
+  protected readonly i18n = inject(I18nService);
 
   readonly daySelected = output<number>();
 
