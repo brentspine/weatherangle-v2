@@ -1,7 +1,7 @@
 import { Location as BrowserLocation } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Observable, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { Location } from '../../core/models/location.models';
 import { LocationService } from '../../core/services/location.service';
 import { Header } from '../../shared/components/header/header';
@@ -48,6 +48,8 @@ export class Places {
       return of(carried);
     }
 
-    return this.locationService.reverseGeocode(lat, lon, 12);
+    return this.locationService.reverseGeocode(lat, lon, 12).pipe(
+      map((location) => ({ ...location, lat, lon })),
+    );
   }
 }

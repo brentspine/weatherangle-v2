@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, untracked } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { of } from 'rxjs';
+import { map, of } from 'rxjs';
 import { Location } from '../../core/models/location.models';
 import { AuthService } from '../../core/services/auth.service';
 import { BackgroundService } from '../../core/services/background-service';
@@ -30,7 +30,9 @@ export class Home {
     stream: () => {
       const startLocation = untracked(() => this.authService.currentUser()?.startLocation ?? null);
       return startLocation
-        ? this.locationService.reverseGeocode(startLocation.lat, startLocation.lon)
+        ? this.locationService.reverseGeocode(startLocation.lat, startLocation.lon).pipe(
+            map((location) => ({ ...location, lat: startLocation.lat, lon: startLocation.lon })),
+          )
         : of(DEFAULT_LOCATION);
     },
   });

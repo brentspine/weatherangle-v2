@@ -170,14 +170,6 @@ export class WeatherPage {
 
   // Damit der Name nicht neu geladen werden muss, wenn man auf die Karte klickt
   protected onNearbySettlementSelected(settlement: NearbySettlement): void {
-    const location: Location = {
-      lat: settlement.lat,
-      lon: settlement.lon,
-      displayName: settlement.name,
-      name: settlement.name,
-    };
-    this.router.navigate(['/places', `@${settlement.lat},${settlement.lon}`], {
-      state: { location },
-    });
+    this.router.navigate(['/places', `@${settlement.lat},${settlement.lon}`]);
   }
 }

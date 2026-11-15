@@ -37,8 +37,8 @@ export class SurpriseLocationService {
 
   getRandomLocation(): Place {
     const box = this.ranges[Math.floor(Math.random() * this.ranges.length)];
-    const lat = box.start[0] + Math.random() * (box.end[0] - box.start[0]);
-    const lon = box.start[1] + Math.random() * (box.end[1] - box.start[1]);
+    const lat = parseFloat((box.start[0] + Math.random() * (box.end[0] - box.start[0])).toFixed(7));
+    const lon = parseFloat((box.start[1] + Math.random() * (box.end[1] - box.start[1])).toFixed(7));
     return { lat, lon };
   }
 

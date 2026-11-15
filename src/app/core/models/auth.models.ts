@@ -62,3 +62,12 @@ export interface PasswordResetRequest {
 export interface ValidationErrorResponse {
   violations: Record<string, string>;
 }
+
+export interface SecurityVerifyRequest {
+  code: string;
+}
+
+export interface SecurityChangePasswordRequest {
+  securityToken: string;
+  newPassword: string;
+}

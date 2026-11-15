@@ -1,0 +1,93 @@
+<div class="security-panel__header">
+  <h2 class="security-panel__title">{{ i18n.t('account.sectionSecurity') }}</h2>
+  @if (!isLocked()) {
+    <button
+      type="button"
+      class="btn btn-sm btn-outline-light security-panel__lock-btn"
+      (click)="lock()"
+    >
+      <span class="material-symbols-outlined">lock_open</span>
+      {{ i18n.t('account.security.lock') }}
+    </button>
+  }
+</div>
+
+@if (isLocked()) {
+  <div class="security-panel__locked-view">
+    <div class="security-panel__blur-shield" aria-hidden="true">
+      <div class="security-panel__ghost-row"></div>
+      <div class="security-panel__ghost-row security-panel__ghost-row--narrow"></div>
+      <div class="security-panel__ghost-row security-panel__ghost-row--button"></div>
+    </div>
+
+    <div
+      class="security-panel__unlock-cta"
+      [class.security-panel__unlock-cta--stepper]="unlockStep() === 'pending-code'"
+    >
+      @if (unlockStep() === 'idle') {
+        <p class="security-panel__hint">{{ i18n.t('account.security.lockedHint') }}</p>
+        <app-form-error [message]="unlockError()" />
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="unlockLoading()"
+          (click)="onRequestUnlock()"
+        >
+          @if (unlockLoading()) {
+            <app-loading-spinner />
+          }
+          {{ i18n.t('account.sendCode') }}
+        </button>
+      } @else {
+        <app-code-step
+          [email]="currentUser()!.email"
+          [loading]="unlockLoading()"
+          [errorMessage]="unlockError()"
+          (submitted)="onCodeSubmit($event)"
+          (back)="unlockStep.set('idle')"
+        />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="security-panel__content">
+    <app-change-password-section [securityToken]="securityToken()!" />
+
+    <div class="security-panel__section">
+      <div class="security-panel__section-header">
+        <h3 class="security-panel__section-title">{{ i18n.t('account.security.twoFa') }}</h3>
+        <span class="security-panel__section-status">{{ i18n.t('account.security.twoFaDisabled') }}</span>
+      </div>
+      <p class="security-panel__section-hint">{{ i18n.t('account.security.twoFaHint') }}</p>
+      <div class="security-panel__method-rows">
+        <div class="security-panel__method-row">
+          <div class="security-panel__method-info">
+            <span class="material-symbols-outlined">smartphone</span>
+            <span>{{ i18n.t('account.security.twoFaMethodApp') }}</span>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-primary" disabled>
+            {{ i18n.t('account.security.twoFaSetUp') }}
+          </button>
+        </div>
+        <div class="security-panel__method-row">
+          <div class="security-panel__method-info">
+            <span class="material-symbols-outlined">sms</span>
+            <span>{{ i18n.t('account.security.twoFaMethodSms') }}</span>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-primary" disabled>
+            {{ i18n.t('account.security.twoFaSetUp') }}
+          </button>
+        </div>
+        <div class="security-panel__method-row">
+          <div class="security-panel__method-info">
+            <span class="material-symbols-outlined">mail</span>
+            <span>{{ i18n.t('account.security.twoFaMethodEmail') }}</span>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-primary" disabled>
+            {{ i18n.t('account.security.twoFaSetUp') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

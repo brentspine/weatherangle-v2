@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, afterNextRender, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BackgroundService } from './core/services/background-service';
+import { PrefetchService } from './core/services/prefetch.service';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +11,9 @@ import { BackgroundService } from './core/services/background-service';
 })
 export class App {
   protected readonly background = inject(BackgroundService).currentBackground;
+
+  constructor() {
+    const prefetchService = inject(PrefetchService);
+    afterNextRender(() => prefetchService.runWhenIdle());
+  }
 }

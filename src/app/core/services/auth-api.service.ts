@@ -14,6 +14,8 @@ import {
   RegisterEmailRequest,
   RegisterRequest,
   RegisterVerifyRequest,
+  SecurityChangePasswordRequest,
+  SecurityVerifyRequest,
 } from '../models/auth.models';
 
 @Injectable({
@@ -71,5 +73,22 @@ export class AuthApiService {
 
   passwordReset(request: PasswordResetRequest): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/password/reset`, request);
+  }
+
+  securityRequestCode(): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/security/request`, {});
+  }
+
+  securityVerifyCode(code: string): Observable<OtcTokenResponse> {
+    return this.http.post<OtcTokenResponse>(`${this.baseUrl}/security/verify`, {
+      code,
+    } satisfies SecurityVerifyRequest);
+  }
+
+  securityChangePassword(securityToken: string, newPassword: string): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/security/change-password`, {
+      securityToken,
+      newPassword,
+    } satisfies SecurityChangePasswordRequest);
   }
 }

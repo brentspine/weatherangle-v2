@@ -1,25 +1,7 @@
-import {
-  AbstractControl,
-  FormBuilder,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  computed,
-  effect,
-  inject,
-  signal,
-  untracked,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, effect, inject, signal, untracked } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, catchError, concatMap, filter, from, map, of, switchMap, timer } from 'rxjs';
 import { RouterLink, Router } from '@angular/router';
-import { toasts, ToastSeverity } from 'brents-toasts';
-import { AuthApiService } from '../../core/services/auth-api.service';
 import { AuthService } from '../../core/services/auth.service';
 import { BackgroundService } from '../../core/services/background-service';
 import { I18nService } from '../../core/services/i18n.service';
@@ -28,54 +10,27 @@ import { SurpriseLocationService } from '../../core/services/surprise-location.s
 import { UserService } from '../../core/services/user.service';
 import { Place } from '../../core/models/auth.models';
 import { Location } from '../../core/models/location.models';
-import { CodeStep } from '../../shared/components/code-step/code-step';
-import { FormError } from '../../shared/components/form-error/form-error';
 import { Header } from '../../shared/components/header/header';
 import { IconToggleButton } from '../../shared/components/icon-toggle-button/icon-toggle-button';
-import { LoadingSpinner } from '../../shared/components/loading-spinner/loading-spinner';
-import { extractApiErrorMessage } from '../../shared/utils/api-error.util';
-
-type PasswordChangeStep = 'idle' | 'code-sent' | 'new-password';
-
-function passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
-  const a = control.get('newPassword')?.value;
-  const b = control.get('confirmPassword')?.value;
-  return a === b ? null : { passwordsMismatch: true };
-}
+import { SecurityPanel } from './components/security-panel/security-panel';
 
 @Component({
   selector: 'app-account',
-  imports: [Header, RouterLink, ReactiveFormsModule, CodeStep, FormError, LoadingSpinner, IconToggleButton],
+  imports: [Header, RouterLink, IconToggleButton, SecurityPanel],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './account.html',
   styleUrl: './account.scss',
 })
 export class Account {
   private readonly authService = inject(AuthService);
-  private readonly authApi = inject(AuthApiService);
   private readonly userService = inject(UserService);
   private readonly locationService = inject(LocationService);
   private readonly surpriseLocationService = inject(SurpriseLocationService);
   private readonly router = inject(Router);
-  private readonly fb = inject(FormBuilder);
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly i18n = inject(I18nService);
   protected readonly currentUser = this.authService.currentUser;
-
-  // change password
-  protected readonly passwordStep = signal<PasswordChangeStep>('idle');
-  protected readonly changePasswordLoading = signal(false);
-  protected readonly changePasswordError = signal<string | null>(null);
-  private readonly changePasswordResetToken = signal<string | null>(null);
-
-  protected readonly changePasswordForm = this.fb.nonNullable.group(
-    {
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required],
-    },
-    { validators: passwordsMatchValidator },
-  );
 
   // favourites
   protected readonly favouriteNames = signal<Map<string, string>>(new Map());
@@ -222,89 +177,6 @@ export class Account {
       ? this.userService.addFavourite(place)
       : this.userService.removeFavourite(place);
     action.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
-  }
-
-  protected onSendCode(): void {
-    const email = this.currentUser()?.email;
-    if (!email) return;
-
-    this.changePasswordLoading.set(true);
-    this.changePasswordError.set(null);
-
-    this.authApi.passwordResetRequest(email).subscribe({
-      next: () => {
-        this.changePasswordLoading.set(false);
-        this.passwordStep.set('code-sent');
-      },
-      error: (err) => {
-        this.changePasswordLoading.set(false);
-        this.changePasswordError.set(extractApiErrorMessage(err));
-      },
-    });
-  }
-
-  protected onCodeSubmit(code: string): void {
-    const email = this.currentUser()?.email;
-    if (!email) return;
-
-    this.changePasswordLoading.set(true);
-    this.changePasswordError.set(null);
-
-    this.authApi.passwordResetVerifyCode(email, code).subscribe({
-      next: ({ token }) => {
-        this.changePasswordLoading.set(false);
-        this.changePasswordResetToken.set(token);
-        this.passwordStep.set('new-password');
-      },
-      error: (err) => {
-        this.changePasswordLoading.set(false);
-        this.changePasswordError.set(
-          extractApiErrorMessage(err, this.i18n.t('error.invalidOrExpiredCode')),
-        );
-      },
-    });
-  }
-
-  protected onPasswordSubmit(): void {
-    if (this.changePasswordForm.invalid) {
-      this.changePasswordForm.markAllAsTouched();
-      return;
-    }
-
-    const token = this.changePasswordResetToken();
-    if (!token) return;
-
-    this.changePasswordLoading.set(true);
-    this.changePasswordError.set(null);
-
-    const { newPassword } = this.changePasswordForm.getRawValue();
-
-    this.authApi.passwordReset({ resetToken: token, newPassword }).subscribe({
-      next: () => {
-        this.changePasswordLoading.set(false);
-        this.changePasswordResetToken.set(null);
-        this.changePasswordForm.reset();
-        this.passwordStep.set('idle');
-        toasts.showToast(this.i18n.t('account.passwordChanged'), {
-          severity: ToastSeverity.SUCCESS,
-        });
-      },
-      error: (err) => {
-        this.changePasswordLoading.set(false);
-        this.changePasswordError.set(
-          extractApiErrorMessage(err, this.i18n.t('error.changePasswordExpired')),
-        );
-        this.changePasswordResetToken.set(null);
-        this.passwordStep.set('code-sent');
-      },
-    });
-  }
-
-  protected onCancelPasswordChange(): void {
-    this.passwordStep.set('idle');
-    this.changePasswordError.set(null);
-    this.changePasswordResetToken.set(null);
-    this.changePasswordForm.reset();
   }
 
   protected onLogout(): void {
