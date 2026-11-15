@@ -1,6 +1,20 @@
 <app-header />
 
-@if (location(); as loc) {
+@if (locationError()) {
+  @if (isInvalidCoords()) {
+    <app-error-page
+      [code]="400"
+      title="Invalid coordinates"
+      message="The coordinates in this URL are outside the valid range. Latitude must be between -90 and 90, longitude between -180 and 180."
+    />
+  } @else {
+    <app-error-page
+      [code]="404"
+      title="Location not found"
+      message="This location could not be found. It may not exist or the name may be misspelled."
+    />
+  }
+} @else if (location(); as loc) {
   <app-weather-page [location]="loc" />
 } @else {
   <main class="places-loading">

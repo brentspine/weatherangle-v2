@@ -1,0 +1,15 @@
+<main class="error-page">
+  <div class="error-page__content">
+    <img
+      class="error-page__dog"
+      [src]="imagePath"
+      [alt]="'HTTP ' + code() + ' dog'"
+      loading="eager"
+    />
+    <h1 class="error-page__code">{{ code() }}</h1>
+    <p class="error-page__title">{{ title() }}</p>
+    @if (message()) {
+      <p class="error-page__message">{{ message() }}</p>
+    }
+  </div>
+</main>
